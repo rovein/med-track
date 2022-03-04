@@ -24,8 +24,8 @@ import java.util.Properties;
 @Log4j2
 public class EmailUtil {
 
-    private static final String USER_NAME = "roman.kuznetsov@nure.ua";
-    private static final String PASSWORD = "rgrsxgnmaxzmumyw";
+    private static final String USER_NAME = System.getProperty("EMAIL_USER_NAME");
+    private static final String PASSWORD = System.getProperty("EMAIL_PASSWORD");
 
     public static EmailBuilder message() {
         return new EmailBuilder();
@@ -94,7 +94,7 @@ public class EmailUtil {
         msg.addHeader("Content-Transfer-Encoding", "8bit");
 
         msg.setFrom(new InternetAddress("admin@med-track.com", "Med Track"));
-        msg.setReplyTo(InternetAddress.parse("roman.kuznetsov@nure.ua", false));
+        msg.setReplyTo(InternetAddress.parse(USER_NAME, false));
         msg.setSubject(subject, "UTF-8");
         msg.setSentDate(new Date());
         msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(emailTo, false));
