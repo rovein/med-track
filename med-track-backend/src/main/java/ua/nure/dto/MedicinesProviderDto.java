@@ -36,12 +36,12 @@ public class MedicinesProviderDto {
 
     private String country;
 
-    public MedicinesProviderDto isLocked(boolean isLocked) {
+    public MedicinesProviderDto setLockStatus(boolean isLocked) {
         this.isLocked = isLocked;
         return this;
     }
 
-    public Boolean isLocked() {
+    public Boolean getLockStatus() {
         return isLocked;
     }
 

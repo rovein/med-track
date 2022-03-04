@@ -18,7 +18,7 @@ public class MedicinesProviderMapper {
                 .setPhoneNumber(medicinesProvider.getPhoneNumber())
                 .setName(medicinesProvider.getName())
                 .setCreationDate(medicinesProvider.getCreationDate())
-                .isLocked(medicinesProvider.isLocked())
+                .setLockStatus(medicinesProvider.isLocked())
                 .setRole(UserRole.MEDICINES_PROVIDER);
     }
 
@@ -42,7 +42,7 @@ public class MedicinesProviderMapper {
             medicinesProvider.setPassword(encoder.encode(password));
         }
 
-        medicinesProvider.isLocked(medicinesProviderDto.isLocked() != null && medicinesProviderDto.isLocked());
+        medicinesProvider.isLocked(medicinesProviderDto.getLockStatus() != null && medicinesProviderDto.getLockStatus());
         return medicinesProvider;
     }
 
