@@ -28,7 +28,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         return handleExceptionInternal(ex, ex.getMessage(), new HttpHeaders(), httpStatus, request);
     }
 
-    @ExceptionHandler(value = {EntityNotFoundException.class})
+    @ExceptionHandler(value = {MedicineStorageCreationException.class})
     @SneakyThrows
     protected ResponseEntity<Object> handleMedicineStorageCreationException(RuntimeException ex, WebRequest request) {
         log.error("Error while creating a medical storage", ex);
