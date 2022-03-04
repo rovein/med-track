@@ -2,7 +2,6 @@ package ua.nure.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
@@ -16,14 +15,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import java.util.Date;
 import java.util.Objects;
 
 @Entity
+@Table(name = "medicine_storage")
 @NoArgsConstructor
 @Getter
 @Setter
-@RequiredArgsConstructor
 @Accessors(chain = true)
 @ToString
 public class MedicineStorage {

@@ -2,8 +2,6 @@ package ua.nure.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
@@ -22,15 +20,14 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.Table;
 import java.util.Objects;
 import java.util.Set;
 
 @Entity
+@Table(name = "placement")
 @Getter
 @Setter
-@RequiredArgsConstructor
-@NoArgsConstructor
-@ToString(exclude = {"medicinesProvider", "smartDevice", "medicineStorages"})
 @Accessors(chain = true)
 public class Placement {
 

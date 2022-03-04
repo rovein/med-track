@@ -1,8 +1,6 @@
 package ua.nure.entity.user;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.Hibernate;
@@ -12,14 +10,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Objects;
 
 @Entity
+@Table(name = "admin")
 @ToString(callSuper = true)
 @Getter
 @Setter
-@RequiredArgsConstructor
-@NoArgsConstructor
 public class Admin extends User {
 
     @Id
@@ -45,4 +43,5 @@ public class Admin extends User {
     public int hashCode() {
         return getClass().hashCode();
     }
+
 }

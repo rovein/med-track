@@ -1,9 +1,7 @@
 package ua.nure.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
@@ -25,9 +23,7 @@ import java.util.Objects;
 @Getter
 @Setter
 @Accessors(chain = true)
-@AllArgsConstructor
-@NoArgsConstructor
-@ToString(exclude = {"placement"})
+@ToString
 public class SmartDevice {
 
     @Id
@@ -44,6 +40,7 @@ public class SmartDevice {
     @MapsId
     @JsonIgnore
     @JoinColumn(name = "placement_id")
+    @ToString.Exclude
     private Placement placement;
 
     @Override

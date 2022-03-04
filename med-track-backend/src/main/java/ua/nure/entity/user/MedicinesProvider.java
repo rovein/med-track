@@ -13,15 +13,16 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import java.util.Date;
 import java.util.Objects;
 import java.util.Set;
 
 @Entity
+@Table(name = "medicines_provider")
 @Getter
 @Setter
 @RequiredArgsConstructor
-@NoArgsConstructor
 @ToString
 public class MedicinesProvider extends User {
 
