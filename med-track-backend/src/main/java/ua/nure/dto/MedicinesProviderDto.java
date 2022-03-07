@@ -1,7 +1,9 @@
 package ua.nure.dto;
 
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.Accessors;
 import ua.nure.entity.role.UserRole;
 
@@ -9,9 +11,11 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import java.util.Date;
 
-@Data
+@Getter
+@Setter
 @Accessors(chain = true)
 @NoArgsConstructor
+@AllArgsConstructor
 public class MedicinesProviderDto {
 
     private Long id;
