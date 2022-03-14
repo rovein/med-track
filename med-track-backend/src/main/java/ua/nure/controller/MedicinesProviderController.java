@@ -164,7 +164,7 @@ public class MedicinesProviderController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/medicines/{id}")
     @ApiOperation(value = "Finds Medicine by ID", nickname = "getMedicineById")
     public ResponseEntity<?> getMedicineById(@PathVariable Long id) {
         return ResponseEntity.ok(medicinesProviderService.findMedicineById(id));
