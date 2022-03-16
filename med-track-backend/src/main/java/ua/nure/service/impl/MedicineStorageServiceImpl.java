@@ -21,6 +21,7 @@ import ua.nure.repository.MedicineRepository;
 import ua.nure.repository.MedicineStorageRepository;
 import ua.nure.repository.PlacementRepository;
 import ua.nure.service.MedicineStorageService;
+import ua.nure.util.EmailUtil;
 
 import java.util.Collections;
 import java.util.Date;
@@ -69,7 +70,17 @@ public class MedicineStorageServiceImpl implements MedicineStorageService {
         checkTemperature(smartDevice, medicine);
         checkHumidity(smartDevice, medicine);
 
-        return MedicineStorageMapper.toMedicineStorageResponseDto(medicineStorageRepository.save(medicineStorage));
+        MedicineStorage createdMedicineStorage = medicineStorageRepository.save(medicineStorage);
+
+        String content = EmailUtil.retrieveContentFromHtmlTemplate("email-templates/contract-created-message.html");
+
+        new Thread(() -> EmailUtil.message()
+                .destination(placement.getMedicinesProvider().getEmail())
+                .subject("Створено нове зберігання ліків")
+                .body(String.format(content)).send()
+        ).start();
+
+        return MedicineStorageMapper.toMedicineStorageResponseDto(createdMedicineStorage);
     }
 
     @SneakyThrows

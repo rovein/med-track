@@ -1,5 +1,7 @@
 package ua.nure.util;
 
+import com.google.common.io.Files;
+import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
 
 import javax.activation.DataHandler;
@@ -17,7 +19,11 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
+import java.io.File;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
 import java.util.Date;
 import java.util.Properties;
 
@@ -46,6 +52,12 @@ public class EmailUtil {
                 return new PasswordAuthentication(USER_NAME, PASSWORD);
             }
         };
+    }
+
+    @SneakyThrows
+    public static String retrieveContentFromHtmlTemplate(String pathToTemplate) {
+        Path filePath = PathsUtil.getResourcePath("email-templates/contract-created-message.html");
+        return Files.asCharSource(new File(filePath.toString()), StandardCharsets.UTF_8).read();
     }
 
     public static void sendEmail(Session session, String toEmail, String subject, String body) {
