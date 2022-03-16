@@ -1,5 +1,6 @@
 package ua.nure.service;
 
+import ua.nure.dto.WarehouseDto;
 import ua.nure.dto.medicine.MedicineDto;
 import ua.nure.dto.PlacementDto;
 import ua.nure.dto.MedicinesProviderDto;
@@ -24,11 +25,21 @@ public interface MedicinesProviderService {
 
     MedicinesProviderDto findById(Long id);
 
-    Set<PlacementDto> findAllPlacements(String email);
+    Set<WarehouseDto> findAllWarehouses(String email);
 
-    PlacementDto addPlacement(PlacementDto placementDto, String email);
+    WarehouseDto addWarehouse(WarehouseDto warehouseDto, String email);
 
-    PlacementDto updatePlacement(PlacementDto placementDto, String email);
+    WarehouseDto updateWarehouse(WarehouseDto warehouseDto, String email);
+
+    WarehouseDto findWarehouseById(Long id);
+
+    void deleteWarehouse(WarehouseDto warehouseDto);
+
+    Set<PlacementDto> findAllPlacements(Long warehouseId);
+
+    PlacementDto addPlacement(PlacementDto placementDto, Long warehouseId);
+
+    PlacementDto updatePlacement(PlacementDto placementDto, Long warehouseId);
 
     PlacementDto findPlacementById(Long id);
 

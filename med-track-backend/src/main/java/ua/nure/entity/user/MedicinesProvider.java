@@ -1,10 +1,13 @@
 package ua.nure.entity.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.*;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.Hibernate;
 import ua.nure.entity.Medicine;
-import ua.nure.entity.Placement;
+import ua.nure.entity.Warehouse;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -46,7 +49,7 @@ public class MedicinesProvider extends User {
 
     @OneToMany(mappedBy = "medicinesProvider", fetch = FetchType.LAZY)
     @ToString.Exclude
-    private Set<Placement> placements;
+    private Set<Warehouse> warehouses;
 
     @OneToMany(mappedBy = "medicinesProvider", fetch = FetchType.LAZY)
     @ToString.Exclude

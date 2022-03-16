@@ -11,10 +11,8 @@ import ua.nure.dto.medicine.MedicineStorageInfoDto;
 import ua.nure.dto.medicine.MedicineStorageRequestDto;
 import ua.nure.dto.medicine.MedicineStorageResponseDto;
 import ua.nure.dto.mapper.MedicineStorageMapper;
-import ua.nure.entity.Medicine;
-import ua.nure.entity.Placement;
-import ua.nure.entity.MedicineStorage;
-import ua.nure.entity.SmartDevice;
+import ua.nure.entity.*;
+import ua.nure.entity.user.MedicinesProvider;
 import ua.nure.exception.EntityNotFoundException;
 import ua.nure.exception.MedicineStorageCreationException;
 import ua.nure.repository.MedicineRepository;
@@ -73,9 +71,11 @@ public class MedicineStorageServiceImpl implements MedicineStorageService {
         MedicineStorage createdMedicineStorage = medicineStorageRepository.save(medicineStorage);
 
         String content = EmailUtil.retrieveContentFromHtmlTemplate("email-templates/contract-created-message.html");
+        Warehouse warehouse = placement.getWarehouse();
+        MedicinesProvider medicinesProvider = warehouse.getMedicinesProvider();
 
         new Thread(() -> EmailUtil.message()
-                .destination(placement.getMedicinesProvider().getEmail())
+                .destination(medicinesProvider.getEmail())
                 .subject("Створено нове зберігання ліків")
                 .body(String.format(content)).send()
         ).start();

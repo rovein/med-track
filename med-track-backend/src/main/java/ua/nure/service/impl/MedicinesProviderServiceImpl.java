@@ -4,6 +4,8 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import ua.nure.dto.WarehouseDto;
+import ua.nure.dto.mapper.WarehouseMapper;
 import ua.nure.dto.medicine.MedicineDto;
 import ua.nure.dto.PlacementDto;
 import ua.nure.dto.MedicinesProviderDto;
@@ -13,12 +15,14 @@ import ua.nure.dto.mapper.PlacementMapper;
 import ua.nure.dto.mapper.MedicinesProviderMapper;
 import ua.nure.entity.Medicine;
 import ua.nure.entity.Placement;
+import ua.nure.entity.Warehouse;
 import ua.nure.entity.user.MedicinesProvider;
 import ua.nure.entity.SmartDevice;
 import ua.nure.exception.EntityNotFoundException;
 import ua.nure.repository.MedicineRepository;
 import ua.nure.repository.MedicinesProviderRepository;
 import ua.nure.repository.PlacementRepository;
+import ua.nure.repository.WarehouseRepository;
 import ua.nure.service.MedicinesProviderService;
 
 import java.math.BigDecimal;
@@ -36,6 +40,8 @@ public class MedicinesProviderServiceImpl implements MedicinesProviderService {
 
     private final MedicinesProviderRepository medicinesProviderRepository;
 
+    private final WarehouseRepository warehouseRepository;
+
     private final PlacementRepository placementRepository;
 
     private final MedicineRepository medicineRepository;
@@ -45,10 +51,12 @@ public class MedicinesProviderServiceImpl implements MedicinesProviderService {
     @Autowired
     public MedicinesProviderServiceImpl(
             MedicinesProviderRepository medicinesProviderRepository,
+            WarehouseRepository warehouseRepository,
             PlacementRepository placementRepository,
             MedicineRepository medicineRepository,
             BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.medicinesProviderRepository = medicinesProviderRepository;
+        this.warehouseRepository = warehouseRepository;
         this.placementRepository = placementRepository;
         this.medicineRepository = medicineRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
@@ -104,30 +112,75 @@ public class MedicinesProviderServiceImpl implements MedicinesProviderService {
     }
 
     @Override
-    public Set<PlacementDto> findAllPlacements(String email) {
-        return medicinesProviderRepository.findByEmail(email)
-                .map(provider -> PlacementMapper.toPlacementDto(provider.getPlacements()))
+    public Set<WarehouseDto> findAllWarehouses(String providerEmail) {
+        return medicinesProviderRepository.findByEmail(providerEmail)
+                .map(provider -> WarehouseMapper.toWarehouseDto(provider.getWarehouses()))
                 .orElse(Collections.emptySet());
     }
 
     @Override
-    public PlacementDto addPlacement(PlacementDto placementDto, String email) {
-        return savePlacement(placementDto,
+    public WarehouseDto addWarehouse(WarehouseDto warehouseDto, String email) {
+        return saveWarehouse(warehouseDto,
                 medicinesProviderRepository.findByEmail(email)
                         .orElseThrow(() -> new EntityNotFoundException("Cannot find provider by email"))
         );
     }
 
     @Override
-    public PlacementDto updatePlacement(PlacementDto placementDto, String email) {
+    public WarehouseDto updateWarehouse(WarehouseDto warehouseDto, String email) {
         return medicinesProviderRepository.findByEmail(email)
                 .map(provider -> {
-                    placementRepository.findById(placementDto.getId())
-                            .orElseThrow(() -> new EntityNotFoundException("Cannot find placement by ID"));
+                    warehouseRepository.findById(warehouseDto.getId())
+                            .orElseThrow(() -> new EntityNotFoundException("Cannot find warehouse by ID"));
                     return provider;
                 })
-                .map(provider -> savePlacement(placementDto, provider))
+                .map(provider -> saveWarehouse(warehouseDto, provider))
                 .orElseThrow(() -> new EntityNotFoundException("Cannot find provider by email"));
+    }
+
+    @Override
+    public void deleteWarehouse(WarehouseDto warehouseDto) {
+        warehouseRepository.deleteById(warehouseDto.getId());
+    }
+
+    @Override
+    public WarehouseDto findWarehouseById(Long id) {
+        return warehouseRepository.findById(id)
+                .map(WarehouseMapper::toWarehouseDto)
+                .orElseThrow(() -> new EntityNotFoundException("Cannot find warehouse by ID"));
+    }
+
+    private WarehouseDto saveWarehouse(WarehouseDto warehouseDto, MedicinesProvider owner) {
+        Warehouse warehouse = WarehouseMapper.toWarehouse(warehouseDto);
+        warehouse.setMedicinesProvider(owner);
+        return WarehouseMapper.toWarehouseDto(warehouseRepository.save(warehouse));
+    }
+
+    @Override
+    public Set<PlacementDto> findAllPlacements(Long warehouseId) {
+        return warehouseRepository.findById(warehouseId)
+                .map(warehouse -> PlacementMapper.toPlacementDto(warehouse.getPlacements()))
+                .orElse(Collections.emptySet());
+    }
+
+    @Override
+    public PlacementDto addPlacement(PlacementDto placementDto, Long warehouseId) {
+        return savePlacement(placementDto,
+                warehouseRepository.findById(warehouseId)
+                        .orElseThrow(() -> new EntityNotFoundException("Cannot find warehouse by ID"))
+        );
+    }
+
+    @Override
+    public PlacementDto updatePlacement(PlacementDto placementDto, Long warehouseId) {
+        return warehouseRepository.findById(warehouseId)
+                .map(warehouse -> {
+                    placementRepository.findById(placementDto.getId())
+                            .orElseThrow(() -> new EntityNotFoundException("Cannot find placement by ID"));
+                    return warehouse;
+                })
+                .map(warehouse -> savePlacement(placementDto, warehouse))
+                .orElseThrow(() -> new EntityNotFoundException("Cannot find warehouse by ID"));
     }
 
     @Override
@@ -157,7 +210,7 @@ public class MedicinesProviderServiceImpl implements MedicinesProviderService {
                 }).orElseThrow(() -> new EntityNotFoundException("Cannot find placement by Smart Device ID"));
     }
 
-    private PlacementDto savePlacement(PlacementDto placementDto, MedicinesProvider owner) {
+    private PlacementDto savePlacement(PlacementDto placementDto, Warehouse warehouse) {
         Placement placement = PlacementMapper.toPlacement(placementDto);
         SmartDevice smartDevice = placement.getSmartDevice();
 
@@ -170,7 +223,7 @@ public class MedicinesProviderServiceImpl implements MedicinesProviderService {
         setDeviceIndicators(smartDevice);
         placement.setSmartDevice(smartDevice);
 
-        placement.setMedicinesProvider(owner);
+        placement.setWarehouse(warehouse);
         return PlacementMapper.toPlacementDto(placementRepository.save(placement));
     }
 
