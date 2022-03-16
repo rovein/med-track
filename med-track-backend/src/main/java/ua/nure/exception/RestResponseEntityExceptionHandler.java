@@ -1,6 +1,5 @@
 package ua.nure.exception;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpHeaders;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-import ua.nure.dto.ErrorDto;
 
 import java.util.Objects;
 
@@ -32,9 +30,8 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     @SneakyThrows
     protected ResponseEntity<Object> handleMedicineStorageCreationException(RuntimeException ex, WebRequest request) {
         log.error("Error while creating a medical storage", ex);
-        ObjectMapper objectMapper = new ObjectMapper();
-        String error = objectMapper.writeValueAsString(new ErrorDto(ex.getMessage()));
-        return handleExceptionInternal(ex, error, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+        String errorJsonBody = ex.getMessage();
+        return handleExceptionInternal(ex, errorJsonBody, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
     }
 
 }

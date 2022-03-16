@@ -1,7 +1,11 @@
 package ua.nure.service.impl;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ua.nure.dto.error.StorageCreationHumidityErrorDto;
+import ua.nure.dto.error.StorageCreationTemperatureErrorDto;
 import ua.nure.dto.medicine.MedicineStorageInfo;
 import ua.nure.dto.medicine.MedicineStorageInfoDto;
 import ua.nure.dto.medicine.MedicineStorageRequestDto;
@@ -33,6 +37,8 @@ public class MedicineStorageServiceImpl implements MedicineStorageService {
 
     private final MedicineRepository medicineRepository;
 
+    private final ObjectMapper objectMapper;
+
     @Autowired
     public MedicineStorageServiceImpl(MedicineStorageRepository medicineStorageRepository,
                                       PlacementRepository placementRepository,
@@ -40,6 +46,7 @@ public class MedicineStorageServiceImpl implements MedicineStorageService {
         this.medicineStorageRepository = medicineStorageRepository;
         this.placementRepository = placementRepository;
         this.medicineRepository = medicineRepository;
+        this.objectMapper = new ObjectMapper();
     }
 
     @Override
@@ -65,29 +72,26 @@ public class MedicineStorageServiceImpl implements MedicineStorageService {
         return MedicineStorageMapper.toMedicineStorageResponseDto(medicineStorageRepository.save(medicineStorage));
     }
 
+    @SneakyThrows
     private void checkTemperature(SmartDevice smartDevice, Medicine medicine) {
         Double actualTemperature = smartDevice.getTemperature();
         Integer minTemperature = medicine.getMinTemperature();
         Integer maxTemperature = medicine.getMaxTemperature();
 
         if (actualTemperature < minTemperature || actualTemperature > maxTemperature) {
-            String cause = "Невідповідні умови для зберігання. "
-                    + "Температура в приміщенні: " + actualTemperature + " °С, "
-                    + "діапазон зберігання для медикаменту: "
-                    + minTemperature + "-" + maxTemperature + "°С.";
-            throw new MedicineStorageCreationException(cause);
+            var error = new StorageCreationTemperatureErrorDto(actualTemperature, minTemperature, maxTemperature);
+            throw new MedicineStorageCreationException(objectMapper.writeValueAsString(error));
         }
     }
 
+    @SneakyThrows
     private void checkHumidity(SmartDevice smartDevice, Medicine medicine) {
         Double actualHumidity = smartDevice.getHumidity();
         Integer maxHumidity = medicine.getMaxHumidity();
 
         if (actualHumidity > maxHumidity) {
-            String cause = "Невідповідні умови для зберігання."
-                    + "Вологість занадто висока: " + actualHumidity + "%, "
-                    + "максимальне граничне значення: " + maxHumidity + "%.";
-            throw new MedicineStorageCreationException(cause);
+            var error = new StorageCreationHumidityErrorDto(actualHumidity, maxHumidity);
+            throw new MedicineStorageCreationException(objectMapper.writeValueAsString(error));
         }
     }
 
