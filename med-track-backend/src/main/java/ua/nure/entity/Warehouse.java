@@ -56,8 +56,8 @@ public class Warehouse {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        Warehouse placement = (Warehouse) o;
-        return id != null && Objects.equals(id, placement.id);
+        Warehouse warehouse = (Warehouse) o;
+        return id != null && Objects.equals(id, warehouse.id);
     }
 
     @Override
