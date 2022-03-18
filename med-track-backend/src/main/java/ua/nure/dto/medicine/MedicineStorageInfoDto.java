@@ -18,21 +18,22 @@ public class MedicineStorageInfoDto {
         this.setId(medicineStorageInfo.getId())
                 .setStartDate(medicineStorageInfo.getStartDate())
                 .setAmount(medicineStorageInfo.getAmount())
-                .setFlowerName(medicineStorageInfo.getFlowerName())
-                .setFlowerColor(medicineStorageInfo.getFlowerColor())
-                .setFlowerShelfLife(medicineStorageInfo.getFlowerShelfLife())
-                .setFlowerId(medicineStorageInfo.getFlowerId())
-                .setStorageRoomId(medicineStorageInfo.getStorageRoomId())
+                .setMedicineId(medicineStorageInfo.getMedicineId())
+                .setMedicineName(medicineStorageInfo.getMedicineName())
+                .setMedicinePrice(medicineStorageInfo.getMedicinePrice())
+                .setMedicineStorageForm(medicineStorageInfo.getMedicineStorageForm())
+                .setMedicineShelfLife(medicineStorageInfo.getMedicineShelfLife())
                 .setMinTemperature(medicineStorageInfo.getMinTemperature())
                 .setMaxTemperature(medicineStorageInfo.getMaxTemperature())
+                .setMaxHumidity(medicineStorageInfo.getMaxHumidity())
+                .setPlacementId(medicineStorageInfo.getPlacementId())
+                .setPlacementType(medicineStorageInfo.getPlacementType())
+                .setWarehouseId(medicineStorageInfo.getWarehouseId())
                 .setCity(medicineStorageInfo.getCity())
                 .setStreet(medicineStorageInfo.getStreet())
                 .setHouse(medicineStorageInfo.getHouse())
-                .setMaxCapacity(medicineStorageInfo.getMaxCapacity())
                 .setTemperature(medicineStorageInfo.getTemperature())
                 .setHumidity(medicineStorageInfo.getHumidity())
-                .setAirQuality(medicineStorageInfo.getAirQuality())
-                .setSatisfactionFactor(medicineStorageInfo.getSatisfactionFactor())
                 .setFormattedDate(formatter.format(medicineStorageInfo.getStartDate()));
     }
 
@@ -42,21 +43,27 @@ public class MedicineStorageInfoDto {
 
     private Integer amount;
 
-    private String flowerName;
+    private Long medicineId;
 
-    private String flowerColor;
+    private String medicineName;
 
-    private String flowerShelfLife;
+    private String medicinePrice;
 
-    private Long flowerId;
+    private String medicineStorageForm;
 
-    private Long storageRoomId;
-
-    private String formattedDate;
+    private String medicineShelfLife;
 
     private Long minTemperature;
 
     private Long maxTemperature;
+
+    private Long maxHumidity;
+
+    private Long placementId;
+
+    private String placementType;
+
+    private Long warehouseId;
 
     private String city;
 
@@ -64,16 +71,12 @@ public class MedicineStorageInfoDto {
 
     private String house;
 
-    private Long maxCapacity;
-
     private Double temperature;
 
     private Double humidity;
 
     private Integer actualCapacity;
 
-    public Double airQuality;
-
-    public Double satisfactionFactor;
+    private String formattedDate;
 
 }

@@ -11,24 +11,29 @@ import java.util.Set;
 @Repository
 public interface MedicineStorageRepository extends CrudRepository<MedicineStorage, Long> {
 
-    String baseStorageInfoQuery = "SELECT flower_storage.flower_storage_id as id, flower_storage.amount as amount, "
-            + "flower_storage.start_date as startDate, flower.name as flowerName, "
-            + "flower.color as flowerColor, flower.shelf_life as flowerShelfLife, flower.flower_id as flowerId, "
-            + "flower_storage.storage_room_id as storageRoomId, flower.min_temperature as minTemperature, flower.max_temperature as maxTemperature, "
-            + "room.city, room.street, room.house, room.max_capacity as maxCapacity, "
-            + "s.temperature, s.humidity, s.satisfaction_factor as satisfactionFactor, s.air_quality as airQuality "
-            + "FROM flower_storage "
-            + "JOIN flower ON flower_storage.flower_id = flower.flower_id "
-            + "JOIN storage_room room ON flower_storage.storage_room_id = room.storage_room_id "
-            + "JOIN smart_system s ON room.storage_room_id = s.storage_room_id ";
+    String baseStorageInfoQuery = "SELECT mc.medicine_storage_id as id, mc.amount, "
+            + "mc.start_date as startDate, medicine.medicine_id as medicineId, medicine.name as medicineName, "
+            + "medicine.price as medicinePrice, medicine.storage_form as medicineStorageForm, "
+            + "medicine.shelf_life as medicineShelfLife, medicine.min_temperature as minTemperature, "
+            + "medicine.max_temperature as maxTemperature, medicine.max_humidity as maxHumidity, "
+            + "mc.placement_id as placementId, placement.type as placementType, warehouse.id as warehouseId, "
+            + "warehouse.city, warehouse.street, warehouse.house, sd.temperature, sd.humidity "
+            + "FROM medicine_storage mc "
+            + "JOIN medicine ON mc.medicine_id = medicine.medicine_id "
+            + "JOIN placement placement ON mc.placement_id = placement.placement_id "
+            + "JOIN warehouse warehouse ON placement.warehouse_id = warehouse.warehouse_id"
+            + "JOIN smart_device sd ON placement.placement_id = s.placement_id ";
 
-    @Query(value = baseStorageInfoQuery + "WHERE room.storage_room_id = ?1", nativeQuery = true)
-    Set<MedicineStorageInfo> getAllStoragesByPlacement(Long roomId);
+    @Query(value = baseStorageInfoQuery + "WHERE warehouse.warehouse_id = ?1", nativeQuery = true)
+    Set<MedicineStorageInfo> getAllStoragesByWarehouse(Long warehouseId);
 
-    @Query(value = baseStorageInfoQuery + "WHERE flower.flower_id = ?1", nativeQuery = true)
+    @Query(value = baseStorageInfoQuery + "WHERE placement.placement_id = ?1", nativeQuery = true)
+    Set<MedicineStorageInfo> getAllStoragesByPlacement(Long placementId);
+
+    @Query(value = baseStorageInfoQuery + "WHERE medicine.medicine_id = ?1", nativeQuery = true)
     Set<MedicineStorageInfo> getAllStoragesByMedicine(Long medicineId);
 
-    @Query(value = baseStorageInfoQuery + "WHERE flower_storage.flower_storage_id = ?1", nativeQuery = true)
+    @Query(value = baseStorageInfoQuery + "WHERE mc.medicine_storage_id = ?1", nativeQuery = true)
     MedicineStorageInfo getStorageInfoByStorageId(Long storageId);
 
 }

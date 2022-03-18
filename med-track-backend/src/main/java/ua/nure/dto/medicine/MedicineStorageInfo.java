@@ -4,42 +4,44 @@ import java.util.Date;
 
 public interface MedicineStorageInfo {
 
-    public Long getId();
+    Long getId();
+    
+    Integer getAmount();
 
-    public Date getStartDate();
+    Date getStartDate();
 
-    public Integer getAmount();
+    Long getMedicineId();
 
-    public String getFlowerName();
+    String getMedicineName();
 
-    public String getFlowerColor();
+    String getMedicinePrice();
 
-    public String getFlowerShelfLife();
+    String getMedicineStorageForm();
 
-    public Long getFlowerId();
+    String getMedicineShelfLife();
 
-    public Long getStorageRoomId();
+    Long getMinTemperature();
 
-    public Long getMinTemperature();
+    Long getMaxTemperature();
 
-    public Long getMaxTemperature();
+    Long getMaxHumidity();
 
-    public String getCity();
+    Long getPlacementId();
 
-    public String getStreet();
+    String getPlacementType();
 
-    public String getHouse();
+    Long getWarehouseId();
 
-    public Long getMaxCapacity();
+    String getCity();
 
-    public Integer getActualCapacity();
+    String getStreet();
 
-    public Double getTemperature();
+    String getHouse();
 
-    public Double getHumidity();
+    Long getMaxCapacity();
+    
+    Double getTemperature();
 
-    public Double getSatisfactionFactor();
-
-    public Double getAirQuality();
+    Double getHumidity();
 
 }
