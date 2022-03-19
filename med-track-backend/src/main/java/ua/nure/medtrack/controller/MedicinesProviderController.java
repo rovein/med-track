@@ -29,7 +29,7 @@ import static ua.nure.medtrack.validation.BindingResultValidator.errorBody;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/medicine-providers")
+@RequestMapping("/medicines-providers")
 @Api(tags = "MedicinesProvider")
 public class MedicinesProviderController {
 

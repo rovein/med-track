@@ -46,7 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/shipments/**")
                     .hasAnyAuthority(UserRole.ADMIN.name(), UserRole.MEDICINES_PROVIDER.name())
                 .antMatchers("/admins/**")
-                .hasAnyAuthority(UserRole.ADMIN.name())
+                    .hasAnyAuthority(UserRole.ADMIN.name())
                 .antMatchers("/roles/**").permitAll()
                 .antMatchers("/auth/**").permitAll()
                 .and()
