@@ -1,5 +1,6 @@
 package ua.nure.dto;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,6 +19,7 @@ import java.util.Date;
 @AllArgsConstructor
 public class MedicinesProviderDto {
 
+    @ApiModelProperty(hidden = true)
     private Long id;
 
     @NotEmpty(message = "Phone number can`t be empty")
@@ -32,10 +34,13 @@ public class MedicinesProviderDto {
     @NotEmpty(message = "Name can`t be empty")
     private String name;
 
+    @ApiModelProperty(hidden = true)
     private Date creationDate;
 
+    @ApiModelProperty(hidden = true)
     private UserRole role;
 
+    @ApiModelProperty(hidden = true)
     private Boolean isLocked;
 
     private String country;
@@ -45,6 +50,7 @@ public class MedicinesProviderDto {
         return this;
     }
 
+    @ApiModelProperty(hidden = true)
     public Boolean getLockStatus() {
         return isLocked;
     }

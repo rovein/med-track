@@ -6,6 +6,7 @@ import ua.nure.entity.user.MedicinesProvider;
 import ua.nure.entity.role.Role;
 import ua.nure.entity.role.UserRole;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,6 +19,8 @@ public class MedicinesProviderMapper {
                 .setPhoneNumber(medicinesProvider.getPhoneNumber())
                 .setName(medicinesProvider.getName())
                 .setCreationDate(medicinesProvider.getCreationDate())
+                .setCountry(medicinesProvider.getCountry())
+                .setPassword(medicinesProvider.getPassword())
                 .setLockStatus(medicinesProvider.isLocked())
                 .setRole(UserRole.MEDICINES_PROVIDER);
     }
@@ -32,7 +35,8 @@ public class MedicinesProviderMapper {
         medicinesProvider.setEmail(medicinesProviderDto.getEmail());
         medicinesProvider.setPhoneNumber(medicinesProviderDto.getPhoneNumber());
         medicinesProvider.setName(medicinesProviderDto.getName());
-        medicinesProvider.setCreationDate(medicinesProviderDto.getCreationDate());
+        medicinesProvider.setCreationDate(new Date());
+        medicinesProvider.setCountry(medicinesProviderDto.getCountry());
         medicinesProvider.setRole(Role.from(UserRole.MEDICINES_PROVIDER));
 
         String password = medicinesProviderDto.getPassword();
