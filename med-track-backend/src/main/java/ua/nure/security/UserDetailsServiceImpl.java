@@ -34,7 +34,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         Optional<Admin> admin = adminRepository.findByEmail(email);
 
         return medicinesProvider.map(UserDetailsImpl::new)
-                .orElse(admin.map(UserDetailsImpl::new)
+                .orElseGet(() -> admin.map(UserDetailsImpl::new)
                         .orElseThrow(() ->
                                 new UsernameNotFoundException("User with email " + email + " not found")));
     }
