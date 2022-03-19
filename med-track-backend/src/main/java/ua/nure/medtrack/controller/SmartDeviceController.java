@@ -28,7 +28,6 @@ public class SmartDeviceController {
     @PostMapping()
     @ApiOperation(value = "Update smart device characteristics, endpoint for Arduino", nickname = "updateSmartDevice")
     public ResponseEntity<?> updateSmartDevice(@RequestBody SmartDeviceDto smartDeviceDto) {
-        medicinesProviderService.findPlacementById(smartDeviceDto.getId());
         return ResponseEntity.ok(medicinesProviderService.updateSmartDevice(smartDeviceDto));
     }
 
