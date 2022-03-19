@@ -58,10 +58,10 @@ public class AuthController {
     )
     public ResponseEntity<?> loginUser(@Valid @RequestBody LoginDto loginDto) {
         authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginDto.email(), loginDto.password())
+                new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword())
         );
 
-        final UserDetails userDetails = userDetailsService.loadUserByUsername(loginDto.email());
+        final UserDetails userDetails = userDetailsService.loadUserByUsername(loginDto.getEmail());
         final String token = new JwtTokenUtil().generateToken(userDetails);
 
         User user = ((UserDetailsImpl) userDetails).getUser();

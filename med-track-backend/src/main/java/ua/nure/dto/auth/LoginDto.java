@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 @Data
-@Accessors(fluent = true)
+@Accessors
 @NoArgsConstructor
 public class LoginDto {
 
