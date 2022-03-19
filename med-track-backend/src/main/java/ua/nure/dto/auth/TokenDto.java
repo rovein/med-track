@@ -6,7 +6,7 @@ import lombok.experimental.Accessors;
 import ua.nure.entity.role.UserRole;
 
 @Data
-@Accessors(fluent = true)
+@Accessors(chain = true)
 @NoArgsConstructor
 public class TokenDto {
 

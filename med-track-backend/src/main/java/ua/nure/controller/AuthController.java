@@ -68,7 +68,7 @@ public class AuthController {
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(new TokenDto().token(token).email(user.getEmail()).userRole(user.getRole().getName()));
+                .body(new TokenDto().setToken(token).setEmail(user.getEmail()).setUserRole(user.getRole().getName()));
     }
 
     @PostMapping("/register/medicines-provider")
