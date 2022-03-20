@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS medicine
 (
     medicine_id           BIGINT,
     name                  VARCHAR(255)  NOT NULL,
-    price                 MONEY         NOT NULL,
+    price                 DOUBLE PRECISION         NOT NULL,
     storage_form          VARCHAR(255)  NOT NULL,
     shelf_life            DATE          NOT NULL,
     min_temperature       DOUBLE PRECISION NOT NULL,
