@@ -5,30 +5,29 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import ua.nure.medtrack.dto.SmartDeviceDto;
 import ua.nure.medtrack.service.MedicinesProviderService;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/device")
-@Api(tags = "4. Smart Device")
-public class SmartDeviceController {
+@RequestMapping("/shipments")
+@Api(tags = "7. Shipments")
+public class ShipmentController {
 
     private final MedicinesProviderService medicinesProviderService;
 
     @Autowired
-    public SmartDeviceController(MedicinesProviderService medicinesProviderService) {
+    public ShipmentController(MedicinesProviderService medicinesProviderService) {
         this.medicinesProviderService = medicinesProviderService;
     }
 
-    @PostMapping()
-    @ApiOperation(value = "Update smart device characteristics, endpoint for Arduino", nickname = "updateSmartDevice")
-    public ResponseEntity<?> updateSmartDevice(@RequestBody SmartDeviceDto smartDeviceDto) {
-        return ResponseEntity.ok(medicinesProviderService.updateSmartDevice(smartDeviceDto));
+    @GetMapping()
+    @ApiOperation(value = "Returns a list of all shipments by warehouse", nickname = "getAllShipmentsByWarehouse")
+    public ResponseEntity<Long> getAllShipmentsByWarehouse(@RequestParam("warehouseId") Long warehouseId) {
+        return ResponseEntity.ok(warehouseId);
     }
 
 }

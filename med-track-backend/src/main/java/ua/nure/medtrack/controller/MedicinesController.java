@@ -26,7 +26,7 @@ import static ua.nure.medtrack.validation.BindingResultValidator.errorBody;
 @CrossOrigin
 @RestController
 @RequestMapping("/medicines-providers")
-@Api(tags = "Medicines")
+@Api(tags = "5. Medicines")
 public class MedicinesController {
 
     private final MedicinesProviderService medicinesProviderService;

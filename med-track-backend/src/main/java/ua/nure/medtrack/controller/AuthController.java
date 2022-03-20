@@ -31,7 +31,7 @@ import static ua.nure.medtrack.validation.BindingResultValidator.errorBody;
 @RestController
 @CrossOrigin
 @RequestMapping(path = "/auth")
-@Api(tags = "Authorization")
+@Api(tags = "0. Authorization")
 public class AuthController {
 
     private final AuthenticationManager authenticationManager;

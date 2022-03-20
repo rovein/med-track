@@ -15,7 +15,7 @@ import ua.nure.medtrack.service.MedicinesProviderService;
 @RestController
 @CrossOrigin
 @RequestMapping(path = "/admin")
-@Api(tags = "Admin")
+@Api(tags = "8. Admin")
 public class AdminController {
 
     private final MedicinesProviderService medicinesProviderService;
