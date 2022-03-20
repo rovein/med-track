@@ -55,7 +55,7 @@ public class EmailUtil {
 
     @SneakyThrows
     public static String retrieveContentFromHtmlTemplate(String pathToTemplate) {
-        Path filePath = PathsUtil.getResourcePath("email-templates/contract-created-message.html");
+        Path filePath = PathsUtil.getResourcePath(pathToTemplate);
         return Files.asCharSource(new File(filePath.toString()), StandardCharsets.UTF_8).read();
     }
 
