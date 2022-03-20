@@ -12,7 +12,7 @@ public class WarehouseMapper {
         return new WarehouseDto()
                 .setId(warehouse.getId())
                 .setCity(warehouse.getCity())
-                .setStreet(warehouse.getCity())
+                .setStreet(warehouse.getStreet())
                 .setHouse(warehouse.getHouse());
     }
 
