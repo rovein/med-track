@@ -44,9 +44,9 @@ CREATE TABLE IF NOT EXISTS medicine
     price                 MONEY         NOT NULL,
     storage_form          VARCHAR(255)  NOT NULL,
     shelf_life            DATE          NOT NULL,
-    min_temperature       NUMERIC(2, 2) NOT NULL,
-    max_temperature       NUMERIC(2, 2) NOT NULL,
-    max_humidity          NUMERIC(2, 2) NOT NULL,
+    min_temperature       DOUBLE PRECISION NOT NULL,
+    max_temperature       DOUBLE PRECISION NOT NULL,
+    max_humidity          DOUBLE PRECISION NOT NULL,
     medicines_provider_id BIGINT        NOT NULL,
     CONSTRAINT PK_medicine PRIMARY KEY (medicine_id),
     CONSTRAINT FK_medicine_medicines_provider
@@ -78,8 +78,8 @@ CREATE TABLE IF NOT EXISTS placement
 CREATE TABLE IF NOT EXISTS smart_device
 (
     placement_id BIGINT,
-    temperature  NUMERIC(2, 2) NOT NULL,
-    humidity     NUMERIC(2, 2) NOT NULL,
+    temperature  DOUBLE PRECISION NOT NULL,
+    humidity     DOUBLE PRECISION NOT NULL,
     CONSTRAINT PK_smart_device PRIMARY KEY (placement_id),
     CONSTRAINT FK_smart_device_placement
         FOREIGN KEY (placement_id) REFERENCES placement (placement_id) ON DELETE CASCADE
