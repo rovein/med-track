@@ -29,7 +29,7 @@ import java.util.Objects;
 public class MedicineStorage {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "medicine_storage_id")
     private Long id;
 
