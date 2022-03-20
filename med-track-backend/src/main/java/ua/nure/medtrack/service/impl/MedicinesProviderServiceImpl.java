@@ -297,8 +297,8 @@ public class MedicinesProviderServiceImpl implements MedicinesProviderService {
                 .destination(warehouse.getMedicinesProvider().getEmail())
                 .subject("Інформація щодо змін показників умов зберігання")
                 .body(String.format(content,
-                        placement.getId() + " (" + placement.getType() + " )",
-                        warehouse.getCity(), warehouse.getStreet(), warehouse.getStreet(),
+                        placement.getId() + " (" + placement.getType() + ")",
+                        warehouse.getCity(), warehouse.getStreet(), warehouse.getHouse(),
                         getMoveLocationsHtmlString(possibleMoveLocations)
                 ))
                 .send()
@@ -309,8 +309,13 @@ public class MedicinesProviderServiceImpl implements MedicinesProviderService {
         return possibleMoveLocations.stream()
                 .map(moveLocations -> {
                     Medicine medicine = moveLocations.getMedicine();
-                    return new StringBuilder("<h3 align=\"center\">")
-                            .append(medicine.getName()).append(" (").append(medicine.getStorageForm()).append(" )")
+                    List<Placement> possibleMovePlacements = moveLocations.getPossibleMovePlacements();
+                    StringBuilder builder = new StringBuilder("<h3 align=\"center\">")
+                            .append(medicine.getName()).append(" (").append(medicine.getStorageForm()).append(")");
+                    if (possibleMovePlacements.isEmpty()) {
+                        return builder.append(" - наразі приміщення з відповідними умовами відсутні").append("</h3>");
+                    }
+                    return builder
                             .append("</h3>")
                             .append("<table><thead><tr>")
                             .append("<th>Номер приміщення</th>")
@@ -318,7 +323,7 @@ public class MedicinesProviderServiceImpl implements MedicinesProviderService {
                             .append("<th>Поточна температура</th>")
                             .append("<th>Поточна вологість</th>")
                             .append("</tr></thead><tbody>")
-                            .append(moveLocations.getPossibleMovePlacements().stream().map(placement ->
+                            .append(possibleMovePlacements.stream().map(placement ->
                                     new StringBuilder("<tr>")
                                             .append("<td>").append(placement.getId()).append("</td>")
                                             .append("<td>").append(placement.getType()).append("</td>")
@@ -328,7 +333,7 @@ public class MedicinesProviderServiceImpl implements MedicinesProviderService {
                                             .append("<td>")
                                             .append(placement.getSmartDevice().getHumidity()).append(" %")
                                             .append("</td>")
-                            ))
+                            ).collect(Collectors.joining()))
                             .append("</tbody></table>");
                 }).collect(Collectors.joining());
     }
