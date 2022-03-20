@@ -13,23 +13,29 @@ import ua.nure.medtrack.dto.SmartDeviceDto;
 import ua.nure.medtrack.dto.mapper.MedicineMapper;
 import ua.nure.medtrack.dto.mapper.PlacementMapper;
 import ua.nure.medtrack.dto.mapper.MedicinesProviderMapper;
+import ua.nure.medtrack.dto.medicine.PossibleMoveLocations;
 import ua.nure.medtrack.entity.Medicine;
+import ua.nure.medtrack.entity.MedicineStorage;
 import ua.nure.medtrack.entity.Placement;
+import ua.nure.medtrack.entity.SmartDevice;
 import ua.nure.medtrack.entity.Warehouse;
 import ua.nure.medtrack.entity.user.MedicinesProvider;
-import ua.nure.medtrack.entity.SmartDevice;
 import ua.nure.medtrack.exception.EntityNotFoundException;
 import ua.nure.medtrack.repository.MedicineRepository;
 import ua.nure.medtrack.repository.MedicinesProviderRepository;
 import ua.nure.medtrack.repository.PlacementRepository;
 import ua.nure.medtrack.repository.WarehouseRepository;
 import ua.nure.medtrack.service.MedicinesProviderService;
+import ua.nure.medtrack.util.EmailUtil;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import java.util.function.DoubleFunction;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static ua.nure.medtrack.dto.mapper.MedicinesProviderMapper.toMedicinesProvider;
 import static ua.nure.medtrack.dto.mapper.MedicinesProviderMapper.toMedicinesProviderDto;
@@ -195,21 +201,6 @@ public class MedicinesProviderServiceImpl implements MedicinesProviderService {
                 .orElseThrow(() -> new EntityNotFoundException("Cannot find placement by ID"));
     }
 
-    @Override
-    public PlacementDto updateSmartDevice(SmartDeviceDto smartDeviceDto) {
-        return placementRepository
-                .findById(smartDeviceDto.getId())
-                .map(placement -> {
-                    SmartDevice smartDevice = placement.getSmartDevice();
-                    smartDevice
-                            .setTemperature(round(smartDeviceDto.getTemperature()))
-                            .setHumidity(round(smartDeviceDto.getHumidity()));
-                    placement.setSmartDevice(smartDevice);
-                    log.info("Updated Smart Device {}", smartDevice);
-                    return PlacementMapper.toPlacementDto(placementRepository.save(placement));
-                }).orElseThrow(() -> new EntityNotFoundException("Cannot find placement by Smart Device ID"));
-    }
-
     private PlacementDto savePlacement(PlacementDto placementDto, Warehouse warehouse) {
         Placement placement = PlacementMapper.toPlacement(placementDto);
         SmartDevice smartDevice = placement.getSmartDevice();
@@ -236,10 +227,75 @@ public class MedicinesProviderServiceImpl implements MedicinesProviderService {
         }
     }
 
-    private double round(double value) {
-        BigDecimal bd = BigDecimal.valueOf(value);
-        bd = bd.setScale(2, RoundingMode.HALF_UP);
-        return bd.doubleValue();
+    @Override
+    public PlacementDto updateSmartDevice(SmartDeviceDto smartDeviceDto) {
+        return placementRepository
+                .findById(smartDeviceDto.getId())
+                .map(placement -> updateSmartDevice(placement, smartDeviceDto))
+                .orElseThrow(() -> new EntityNotFoundException("Cannot find placement by Smart Device ID"));
+    }
+
+    private PlacementDto updateSmartDevice(Placement placement, SmartDeviceDto smartDeviceDto) {
+        updateSmartDeviceIndicators(placement, smartDeviceDto);
+
+        Warehouse warehouse = placement.getWarehouse();
+        Set<Placement> placementsInCurrentWarehouse = warehouse.getPlacements();
+
+        List<PossibleMoveLocations> possibleMoveLocations = placement.getMedicineStorages().stream()
+                .map(MedicineStorage::getMedicine)
+                .distinct()
+                .flatMap(medicine -> findPossibleMoveLocations(medicine, placement, placementsInCurrentWarehouse))
+                .collect(Collectors.toList());
+
+        if (!possibleMoveLocations.isEmpty()) {
+            sendEmailNotification(warehouse.getMedicinesProvider().getEmail(), possibleMoveLocations);
+        }
+
+        return PlacementMapper.toPlacementDto(placementRepository.save(placement));
+    }
+
+    private void updateSmartDeviceIndicators(Placement placement, SmartDeviceDto smartDeviceDto) {
+        DoubleFunction<Double> round = (value) -> {
+            BigDecimal bd = BigDecimal.valueOf(value);
+            bd = bd.setScale(2, RoundingMode.HALF_UP);
+            return bd.doubleValue();
+        };
+
+        SmartDevice smartDevice = placement.getSmartDevice();
+        smartDevice
+                .setTemperature(round.apply(smartDeviceDto.getTemperature()))
+                .setHumidity(round.apply(smartDeviceDto.getHumidity()));
+        placement.setSmartDevice(smartDevice);
+        log.info("Updated Smart Device {}", smartDevice);
+    }
+
+    private Stream<PossibleMoveLocations> findPossibleMoveLocations(Medicine medicine,
+                                                                    Placement currentPlacement,
+                                                                    Set<Placement> placements) {
+        Integer minTemperature = medicine.getMinTemperature();
+        Integer maxTemperature = medicine.getMaxTemperature();
+        double currentTemperature = currentPlacement.getSmartDevice().getTemperature();
+
+        if (currentTemperature < minTemperature || currentTemperature > maxTemperature) {
+            List<Placement> possibleMovePlacements = placements.stream()
+                    .filter(place -> !place.equals(currentPlacement))
+                    .filter(place -> {
+                        Double temperature = place.getSmartDevice().getTemperature();
+                        return temperature >= minTemperature && temperature <= maxTemperature;
+                    }).collect(Collectors.toList());
+            return Stream.of(new PossibleMoveLocations(medicine, possibleMovePlacements));
+        }
+        return Stream.empty();
+    }
+
+    private void sendEmailNotification(String receiver, List<PossibleMoveLocations> possibleMoveLocations) {
+        String content = EmailUtil.retrieveContentFromHtmlTemplate("email-templates/medicine-move-locations.html");
+        new Thread(() -> EmailUtil.message()
+                .destination(receiver)
+                .subject("Інформація щодо змін показників умов зберігання")
+                .body(content)
+                .send()
+        ).start();
     }
 
     @Override
