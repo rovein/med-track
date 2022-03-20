@@ -248,7 +248,7 @@ public class MedicinesProviderServiceImpl implements MedicinesProviderService {
                 .collect(Collectors.toList());
 
         if (!possibleMoveLocations.isEmpty()) {
-            sendEmailNotification(warehouse.getMedicinesProvider().getEmail(), possibleMoveLocations);
+            sendEmailNotification(warehouse, placement, possibleMoveLocations);
         }
 
         return PlacementMapper.toPlacementDto(placementRepository.save(placement));
@@ -288,14 +288,47 @@ public class MedicinesProviderServiceImpl implements MedicinesProviderService {
         return Stream.empty();
     }
 
-    private void sendEmailNotification(String receiver, List<PossibleMoveLocations> possibleMoveLocations) {
+    private void sendEmailNotification(Warehouse warehouse, Placement placement,
+                                       List<PossibleMoveLocations> possibleMoveLocations) {
         String content = EmailUtil.retrieveContentFromHtmlTemplate("email-templates/medicine-move-locations.html");
         new Thread(() -> EmailUtil.message()
-                .destination(receiver)
+                .destination(warehouse.getMedicinesProvider().getEmail())
                 .subject("Інформація щодо змін показників умов зберігання")
-                .body(content)
+                .body(String.format(content,
+                        placement.getId() + " (" + placement.getType() + " )",
+                        warehouse.getCity(), warehouse.getStreet(), warehouse.getStreet(),
+                        getMoveLocationsHtmlString(possibleMoveLocations)
+                ))
                 .send()
         ).start();
+    }
+
+    private String getMoveLocationsHtmlString(List<PossibleMoveLocations> possibleMoveLocations) {
+        return possibleMoveLocations.stream()
+                .map(moveLocations -> {
+                    Medicine medicine = moveLocations.getMedicine();
+                    return new StringBuilder("<h3 align=\"center\">")
+                            .append(medicine.getName()).append(" (").append(medicine.getStorageForm()).append(" )")
+                            .append("</h3>")
+                            .append("<table><thead><tr>")
+                            .append("<th>Номер приміщення</th>")
+                            .append("<th>Тип</th>")
+                            .append("<th>Поточна температура</th>")
+                            .append("<th>Поточна вологість</th>")
+                            .append("</tr></thead><tbody>")
+                            .append(moveLocations.getPossibleMovePlacements().stream().map(placement ->
+                                    new StringBuilder("<tr>")
+                                            .append("<td>").append(placement.getId()).append("</td>")
+                                            .append("<td>").append(placement.getType()).append("</td>")
+                                            .append("<td>")
+                                            .append(placement.getSmartDevice().getTemperature()).append(" ℃")
+                                            .append("</td>")
+                                            .append("<td>")
+                                            .append(placement.getSmartDevice().getHumidity()).append(" %")
+                                            .append("</td>")
+                            ))
+                            .append("</tbody></table>");
+                }).collect(Collectors.joining());
     }
 
     @Override
