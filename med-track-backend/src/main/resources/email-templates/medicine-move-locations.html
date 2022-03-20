@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <style type="text/css">
+        table, th, td {
+            border: 1px solid black;
+        }
+        th{
+            background: #AFCDE7;
+        }
+        td {
+            padding: 10px 20px;
+            background: #D8E6F3;
+        }
+        table {
+            empty-cells: hide;
+            width: 100%%;
+            padding: 15px;
+            text-align: center;
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        .text {
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h3 align="center">Змінені показники умов зберігання у приміщенні</h3>
+    <p class="text">Під час останнього оновлення показників температури у місці зберігання за номером %s у складі
+        за адресою - м. %s, вул. %s, %s - для деяких медикаментів умови зберігання виявились невідповідними. <br><br>
+        Перенесіть зберігання наступних медикаментів у одне із запропонованих приміщень у поточному складі:
+    </p>
+    %s
+    <br/>
+<p class="text">Маніпулювання зберіганнями можна виконати <a href="http://localhost:3000/storages">тут</a>.</p>
+</body>
+</html>
