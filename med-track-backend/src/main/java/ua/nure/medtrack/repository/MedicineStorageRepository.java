@@ -16,13 +16,13 @@ public interface MedicineStorageRepository extends CrudRepository<MedicineStorag
             + "medicine.price as medicinePrice, medicine.storage_form as medicineStorageForm, "
             + "medicine.shelf_life as medicineShelfLife, medicine.min_temperature as minTemperature, "
             + "medicine.max_temperature as maxTemperature, medicine.max_humidity as maxHumidity, "
-            + "mc.placement_id as placementId, placement.type as placementType, warehouse.id as warehouseId, "
+            + "mc.placement_id as placementId, placement.type as placementType, warehouse.warehouse_id as warehouseId, "
             + "warehouse.city, warehouse.street, warehouse.house, sd.temperature, sd.humidity "
             + "FROM medicine_storage mc "
             + "JOIN medicine ON mc.medicine_id = medicine.medicine_id "
             + "JOIN placement placement ON mc.placement_id = placement.placement_id "
-            + "JOIN warehouse warehouse ON placement.warehouse_id = warehouse.warehouse_id"
-            + "JOIN smart_device sd ON placement.placement_id = s.placement_id ";
+            + "JOIN warehouse warehouse ON placement.warehouse_id = warehouse.warehouse_id "
+            + "JOIN smart_device sd ON placement.placement_id = sd.placement_id ";
 
     @Query(value = baseStorageInfoQuery + "WHERE warehouse.warehouse_id = ?1", nativeQuery = true)
     Set<MedicineStorageInfo> getAllStoragesByWarehouse(Long warehouseId);
