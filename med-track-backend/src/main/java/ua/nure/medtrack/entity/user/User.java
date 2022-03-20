@@ -28,9 +28,8 @@ public abstract class User {
     @Column(name = "is_locked")
     protected Boolean isLocked;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "ROLE_ID")
-    @ToString.Exclude
     protected Role role;
 
     public User isLocked(boolean isLocked) {
