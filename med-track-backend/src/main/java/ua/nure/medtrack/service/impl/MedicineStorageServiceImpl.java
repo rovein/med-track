@@ -114,7 +114,7 @@ public class MedicineStorageServiceImpl implements MedicineStorageService {
 
     private void sendEmailNotification(MedicinesProvider medicinesProvider, MedicineStorage medicineStorage,
                                        Placement placement, Medicine medicine, Warehouse warehouse) {
-        String content = EmailUtil.retrieveContentFromHtmlTemplate("email-templates/contract-created-message.html");
+        String content = EmailUtil.retrieveContentFromHtmlTemplate("email-templates/storage-created-message.html");
         Date creationDate = medicineStorage.getStartDate();
         new Thread(() -> EmailUtil.message()
                 .destination(medicinesProvider.getEmail())
