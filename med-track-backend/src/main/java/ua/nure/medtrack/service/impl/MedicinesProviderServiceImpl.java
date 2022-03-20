@@ -39,6 +39,7 @@ import java.util.stream.Stream;
 
 import static ua.nure.medtrack.dto.mapper.MedicinesProviderMapper.toMedicinesProvider;
 import static ua.nure.medtrack.dto.mapper.MedicinesProviderMapper.toMedicinesProviderDto;
+import static ua.nure.medtrack.dto.mapper.SmartDeviceMapper.toSmartDeviceDto;
 
 @Service
 @Log4j2
@@ -181,8 +182,9 @@ public class MedicinesProviderServiceImpl implements MedicinesProviderService {
     public PlacementDto updatePlacement(PlacementDto placementDto, Long warehouseId) {
         return warehouseRepository.findById(warehouseId)
                 .map(warehouse -> {
-                    placementRepository.findById(placementDto.getId())
+                    Placement placement = placementRepository.findById(placementDto.getId())
                             .orElseThrow(() -> new EntityNotFoundException("Cannot find placement by ID"));
+                    placementDto.setSmartDevice(toSmartDeviceDto(placement.getSmartDevice()));
                     return warehouse;
                 })
                 .map(warehouse -> savePlacement(placementDto, warehouse))
