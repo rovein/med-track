@@ -5,6 +5,7 @@ import {withTranslation} from 'react-i18next'
 import * as Constants from "../util/Constants";
 import axios from "axios";
 import DefaultLoader from "../ui/Loader";
+import jwt_decode from "jwt-decode";
 
 const url = Constants.SERVER_URL;
 
@@ -76,7 +77,11 @@ class SignInForm extends React.Component {
                 this.resetForm()
                 this.setState({flag: 5});
             } else if (result && result.message !== "Access Denied") {
-                localStorage.setItem('Token', result.token);
+                const token = result.token;
+                localStorage.setItem('Token', token);
+                var decoded = jwt_decode(token)
+                localStorage.setItem('UserEmail', decoded.email)
+                localStorage.setItem('UserRole', decoded.role)
                 window.location.href = './profile';
             } else if (result) {
                 this.resetForm()
