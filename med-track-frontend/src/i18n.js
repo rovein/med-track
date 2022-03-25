@@ -121,7 +121,8 @@ i18n.use(LanguageDetector).init({
         NotRecover: "You will not be able to restore this without administrator.",
         Page: "Page",
         Show: "Show",
-        ToPlacements: "To placements"
+        ToPlacements: "To placements",
+        ErrorResponse: "Something went wrong. Try again later."
       }
     },
     UA: {
@@ -240,7 +241,8 @@ i18n.use(LanguageDetector).init({
         Configure: "Налаштувати",
         Page: "Сторінка",
         Show: "Показати",
-        ToPlacements: "До приміщень"
+        ToPlacements: "До приміщень",
+        ErrorResponse: "Щось пійшло не так. Спробуйте ще раз пізніше."
       }
     },
   },

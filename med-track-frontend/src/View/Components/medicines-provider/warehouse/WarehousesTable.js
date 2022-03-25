@@ -50,7 +50,7 @@ function WarehousesTable() {
 
     function editEntity(id) {
         localStorage.setItem("warehouseId", id);
-        window.location.href = "./edit_warehouse";
+        window.location.href = "./edit-warehouse";
     }
 
     function goToPlacementsPage(id) {

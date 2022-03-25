@@ -1,5 +1,6 @@
 import axios from 'axios';
 import {SERVER_URL} from "./Constants";
+import delay from "./DelayUtil";
 
 const instance = axios.create({
     baseURL: SERVER_URL
@@ -16,7 +17,8 @@ instance.interceptors.request.use(config => {
     return config;
 },error => Promise.reject(error));
 
-instance.interceptors.response.use(config => {
+instance.interceptors.response.use(async (config) => {
+    await delay();
     console.log("RESPONSE")
     console.log(config)
     return config;

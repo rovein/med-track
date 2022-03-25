@@ -6,6 +6,8 @@ import * as Constants from "../util/Constants";
 import axios from "axios";
 import DefaultLoader from "../ui/Loader";
 import jwt_decode from "jwt-decode";
+import delay from "../util/DelayUtil";
+import instance from "../util/ApiUtil";
 
 const url = Constants.SERVER_URL;
 
@@ -66,29 +68,33 @@ class SignInForm extends React.Component {
             isLoaded: false
         })
         try {
-            let res = await axios.post(`${url}/auth/login`,
+            const client = axios.create();
+            client.interceptors.request.use(async (request) => {
+                await delay();
+                return request;
+            });
+            instance.interceptors.response.use(config => config, error => Promise.reject(error))
+            let res = await client.post(`${url}/auth/login`,
                 {
                     email: this.state.email,
                     password: this.state.password
                 }
             )
-            let result = res.data
-            if (result.message === "Access Denied" && result.trace.includes('account is locked')) {
-                this.resetForm()
+            const result = res.data;
+            const token = result.token;
+            localStorage.setItem('Token', token);
+            var decoded = jwt_decode(token)
+            localStorage.setItem('UserEmail', decoded.email)
+            localStorage.setItem('UserRole', decoded.role)
+            window.location.href = './profile';
+        } catch (error) {
+            const response = error.response
+            const data = response.data
+            if (data.message === "Access Denied" && data.trace.includes('account is locked')) {
                 this.setState({flag: 5});
-            } else if (result && result.message !== "Access Denied") {
-                const token = result.token;
-                localStorage.setItem('Token', token);
-                var decoded = jwt_decode(token)
-                localStorage.setItem('UserEmail', decoded.email)
-                localStorage.setItem('UserRole', decoded.role)
-                window.location.href = './profile';
-            } else if (result) {
-                this.resetForm()
+            } else {
                 this.setState({flag: 4});
             }
-        } catch (e) {
-            console.log(e)
             this.resetForm()
         }
     }
@@ -97,7 +103,7 @@ class SignInForm extends React.Component {
         const {t} = this.props
         const inputClass = Constants.INPUT_STYLE_CLASSES;
         if (!this.state.isLoaded) {
-            return <DefaultLoader height={400} width={425}/>
+            return <DefaultLoader height={400} width={425} isCentered={false}/>
         }
         return (
             <div

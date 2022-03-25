@@ -1,7 +1,5 @@
 import {DELAY} from "./Constants";
 
-export default function doWithDelay(func) {
-    setTimeout(() => {
-        func()
-    }, DELAY)
+export default function delay() {
+    return new Promise((resolve) => setTimeout(resolve, DELAY));
 }

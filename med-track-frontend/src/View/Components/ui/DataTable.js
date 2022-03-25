@@ -107,10 +107,8 @@ function Table({columns, data, operations, searchPlaceholder}) {
     function deleteEntity(url, id) {
         axios.delete(`${baseUrl}/${url}`)
             .then(result => {
-                doWithDelay(() => {
-                    deleteCallback(id)
-                    setIsLoaded(true)
-                })
+                deleteCallback(id)
+                setIsLoaded(true)
             }).catch(e => {
             alert(e)
         })

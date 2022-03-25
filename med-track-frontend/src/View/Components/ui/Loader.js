@@ -1,9 +1,9 @@
 import React from 'react'
 import Loader from "react-loader-spinner";
 
-function DefaultLoader({height, width}) {
+function DefaultLoader({height, width, isCentered}) {
     return (
-        <div className="centered">
+        <div className={isCentered === undefined || isCentered ? "centered" : ""}>
             <Loader
                 type="Oval" //Audio Oval ThreeDots
                 color="#4B0082"
