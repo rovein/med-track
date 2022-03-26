@@ -3,13 +3,9 @@ import Input from '../ui/Input'
 import Button from '../ui/Button'
 import {withTranslation} from 'react-i18next'
 import * as Constants from "../util/Constants";
-import axios from "axios";
 import DefaultLoader from "../ui/Loader";
 import jwt_decode from "jwt-decode";
-import delay from "../util/DelayUtil";
-import instance from "../util/ApiUtil";
-
-const url = Constants.SERVER_URL;
+import {authInstance} from "../util/ApiUtil";
 
 class SignInForm extends React.Component {
     constructor(props) {
@@ -49,8 +45,6 @@ class SignInForm extends React.Component {
 
     resetForm() {
         this.setState({
-            email: '',
-            password: '',
             buttonDisabled: false,
             isLoaded: true
         })
@@ -68,13 +62,7 @@ class SignInForm extends React.Component {
             isLoaded: false
         })
         try {
-            const client = axios.create();
-            client.interceptors.request.use(async (request) => {
-                await delay();
-                return request;
-            });
-            instance.interceptors.response.use(config => config, error => Promise.reject(error))
-            let res = await client.post(`${url}/auth/login`,
+            let res = await authInstance.post(`/auth/login`,
                 {
                     email: this.state.email,
                     password: this.state.password
@@ -83,7 +71,7 @@ class SignInForm extends React.Component {
             const result = res.data;
             const token = result.token;
             localStorage.setItem('Token', token);
-            var decoded = jwt_decode(token)
+            const decoded = jwt_decode(token)
             localStorage.setItem('UserEmail', decoded.email)
             localStorage.setItem('UserRole', decoded.role)
             window.location.href = './profile';

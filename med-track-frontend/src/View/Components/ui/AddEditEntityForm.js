@@ -13,21 +13,24 @@ fields:
     inputType: 'text',
     name: 'city',
     pattern: /^([А-Яа-яё]+)|([A-Za-z]+)$/i,
-    error: 'ECity'
+    error: 'ECity',
+    iconClassName: 'w3-xxlarge fas fa-city'
   },
   {
     label: 'FStreet',
     inputType: 'text',
     name: 'street',
     pattern: /^([А-Яа-яё]+)|([A-Za-z]+)$/i,
-    error: 'EStreet'
+    error: 'EStreet',
+    iconClassName: 'w3-xxlarge fas fa-road'
   },
   {
    label: 'FHouse',
     inputType: 'text',
     name: 'house',
     pattern: /^([0-9]+)|([0-9А-Яа-я]+)|([0-9A-Za-z]+)$/i,
-    error: 'EHouse'
+    error: 'EHouse',
+    iconClassName: 'w3-xxlarge fas fa-home'
   }
 ]
 

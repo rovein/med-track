@@ -10,13 +10,10 @@ import {
 import SignIn from './View/Components/navigation/Login'
 import SignUp from './View/Components/navigation/SignUp'
 import Profile from './View/Components/navigation/Profile'
-import Search from './View/Components/navigation/Search'
 import {withTranslation} from 'react-i18next'
 import Edit from './View/Components/navigation/Edit';
 import AddRoom from './View/Components/navigation/placement/AddPlacement'
-import AddService from './View/Components/navigation/service/AddService'
 import Contract from './View/Components/navigation/contract/Contract'
-import EditService from './View/Components/navigation/service/EditService';
 import SignContract from './View/Components/contract/CreateContract';
 import EditRoom from './View/Components/navigation/placement/EditPlacement';
 import ConfigureDevice from "./View/Components/navigation/ConfigureDevice";
@@ -43,7 +40,6 @@ class App extends React.Component {
                         <Route path='/profile' component={Profile}/>
                         <Route path='/edit' component={Edit}/>
 
-                        <Route path='/search' component={Search}/>
                         <Route path='/more' component={Info}/>
 
                         <Route path='/add-warehouse' component={AddWarehouse}/>
@@ -51,9 +47,6 @@ class App extends React.Component {
 
                         <Route path='/add_room' component={AddRoom}/>
                         <Route path='/edit_room' component={EditRoom}/>
-
-                        <Route path='/add_service' component={AddService}/>
-                        <Route path='/edit_service' component={EditService}/>
 
                         <Route path='/contracts' component={Contract}/>
                         <Route path='/sign_contract' component={SignContract}/>
