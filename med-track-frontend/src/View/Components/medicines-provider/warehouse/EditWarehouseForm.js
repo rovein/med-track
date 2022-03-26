@@ -18,9 +18,7 @@ function EditWarehouseForm() {
             )
     }, [])
 
-    if (!isLoaded) {
-        return <DefaultLoader height={400} width={425}/>
-    }
+    if (!isLoaded) return <DefaultLoader height={400} width={425} isCentered={false}/>;
     return <div className="container">
         <AddEditEntityForm requestPayload={{
             function: axios.put,

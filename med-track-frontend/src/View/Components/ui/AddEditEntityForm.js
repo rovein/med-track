@@ -76,7 +76,7 @@ function AddEditEntityForm({requestPayload, fields, formName}) {
     };
 
     if (!isLoaded) {
-        return <DefaultLoader height={400} width={425}/>
+        return <DefaultLoader height={400} width={425} isCentered={false}/>
     }
     return (
         <form className="w3-container w3-card-4 w3-light-grey w3-text-indigo w3-margin"

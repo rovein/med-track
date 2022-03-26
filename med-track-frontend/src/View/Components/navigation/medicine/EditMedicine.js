@@ -6,7 +6,7 @@ function EditMedicine() {
     return (
         <div className="signIn">
             <Header/>
-            <div className="container">
+            <div className="container" style={{marginTop: "1%"}}>
                 <EditMedicineForm/>
             </div>
         </div>

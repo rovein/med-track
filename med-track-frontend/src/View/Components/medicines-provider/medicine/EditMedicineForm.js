@@ -1,25 +1,27 @@
 import React, {useEffect, useState} from 'react'
 import axios from "../../util/ApiUtil";
-import {SERVER_URL} from "../../util/Constants";
 import AddEditEntityForm from "../../ui/AddEditEntityForm";
-import {EDIT_FORM_NAME, FIELDS} from "../../navigation/warehouse/AddEditWarehouseFormConfig";
+import {EDIT_FORM_NAME, FIELDS} from "./AddEditMedicineFormConfig";
 import DefaultLoader from "../../ui/Loader";
+import Moment from "moment";
 
-function EditWarehouseForm() {
+function EditMedicineForm() {
     const [isLoaded, setIsLoaded] = useState(false)
     const [body, setBody] = useState({})
 
     useEffect(() => {
         axios.get(`/medicines-providers/medicines/${localStorage.getItem("medicineId")}`)
             .then(result => {
-                    setBody(result.data)
+                    const data = result.data;
+                    data.shelfLife = Moment(data.shelfLife).format("YYYY-MM-DD");
+                    setBody(data);
                     setIsLoaded(true);
                 }
             )
     }, [])
 
-    if (!isLoaded) return <DefaultLoader height={400} width={425}/>;
-    return <div className="container">
+    if (!isLoaded) return <DefaultLoader height={400} width={425} isCentered={false}/>;
+    return <div className="container" style={{marginTop: "1%"}}>
         <AddEditEntityForm requestPayload={{
             function: axios.put,
             url: `/medicines-providers/${localStorage.getItem('UserEmail')}/medicines`,
@@ -29,4 +31,4 @@ function EditWarehouseForm() {
     </div>
 }
 
-export default EditWarehouseForm
+export default EditMedicineForm
