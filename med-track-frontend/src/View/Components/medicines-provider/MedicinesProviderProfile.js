@@ -1,81 +1,55 @@
-import React from 'react'
-import {withTranslation} from 'react-i18next';
+import React, {useEffect, useState} from 'react'
+import {useTranslation, withTranslation} from 'react-i18next';
 
-import jwt_decode from "jwt-decode"
-import * as Constants from "../util/Constants";
 import axios from "../util/ApiUtil";
-import WarehousesTable from "./warehouse/WarehousesTable";
 import MedicinesTable from "./medicine/MedicinesTable";
+import WarehousesTable from "./warehouse/WarehousesTable";
 
-const url = Constants.SERVER_URL;
-if (localStorage.getItem("Token") != null) {
-    var token = localStorage.getItem("Token")
-    var decoded = jwt_decode(token)
-}
+function Profile() {
 
-class Profile extends React.Component {
+    const [provider, setProvider] = useState({})
+    const [shownTable, setShownTable] = useState("WAREHOUSES")
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            error: null,
-            isLoaded: false,
-            provider: {}
-        };
-    }
-
-    componentDidMount() {
+    useEffect(() => {
         let cachedMedicinesProvider = localStorage.getItem("medicinesProvider");
         if (cachedMedicinesProvider != null) {
-            this.setState({
-                isLoaded: true,
-                provider: JSON.parse(cachedMedicinesProvider)
-            });
+            setProvider(JSON.parse(cachedMedicinesProvider));
             return
         }
-        axios.get(`${url}/medicines-providers/${decoded.email}`)
+        axios.get(`/medicines-providers/${localStorage.getItem('UserEmail')}`)
             .then(result => {
-                    this.setState({
-                        isLoaded: true,
-                        provider: result.data
-                    });
+                    setProvider(result.data);
                     localStorage.setItem("medicinesProvider", JSON.stringify(result.data));
-                },
-                (error) => {
-                    this.setState({
-                        isLoaded: true,
-                        error: error
-                    });
                 }
             )
-    }
+    }, [])
 
-    render() {
-        localStorage.removeItem("Id")
-        const {t} = this.props
-        if (localStorage.getItem("Token") == null) {
-            window.location.href = './'
-        } else {
-            return (
-                <div>
-                    <div className="w3-light-grey w3-text-black w3-border w3-border-black profile_back">
-                        <p id="cName">{this.state.provider.name}</p>
-                        <p></p>
-                        <p>{t("Email")}: {this.state.provider.email}</p>
-                        <p></p>
-                        <p>{t("Phone")}: {this.state.provider.phoneNumber}</p>
-                        <p></p>
-                        <p>
-                            {t("FCountry")}: {this.state.provider.country}
-                        </p>
-                    </div>
-                    <div id="rooms_container">
-                        <MedicinesTable/>
-                    </div>
-                </div>
-            )
-        }
+    localStorage.removeItem("Id")
+    if (localStorage.getItem("Token") == null) {
+        window.location.href = './'
     }
+    const {t} = useTranslation();
+    return (
+        <div>
+            <div className="w3-light-grey w3-text-black w3-border w3-border-black profile_back">
+                <p id="cName">{provider.name}</p>
+                <p></p>
+                <p>{t("Email")}: {provider.email}</p>
+                <button style={{padding: 0, height: '26px', fontSize: '18px'}}
+                        className={shownTable === "WAREHOUSES" ? "w3-teal w3-btn w3-round-small" : "w3-khaki w3-btn w3-round-small"}
+                        onClick={() => setShownTable("WAREHOUSES")}>{t("Warehouses")}</button>
+                <p>{t("Phone")}: {provider.phoneNumber}</p>
+                <button style={{padding: 0, height: '26px', fontSize: '18px'}}
+                        className={shownTable === "MEDICINES" ? "w3-teal w3-btn w3-round-small" : "w3-khaki w3-btn w3-round-small"}
+                        onClick={() => setShownTable("MEDICINES")}>{t("Medicines")}</button>
+                <p>{t("FCountry")}: {provider.country}</p>
+            </div>
+            <div id="rooms_container">
+                {shownTable === 'WAREHOUSES' && <WarehousesTable/>}
+                {shownTable === 'MEDICINES' && <MedicinesTable/>}
+            </div>
+        </div>
+    )
 }
 
 export default withTranslation()(Profile);

@@ -134,7 +134,9 @@ i18n.use(LanguageDetector).init({
                 Show: "Show",
                 ToPlacements: "To placements",
                 ErrorResponse: "Something went wrong. Try again later.",
-                ColumnSearch: "Filter"
+                ColumnSearch: "Filter",
+                Warehouses: "Warehouses",
+                Medicines: "Medicines"
             }
         },
         UA: {
@@ -266,7 +268,9 @@ i18n.use(LanguageDetector).init({
                 Show: "Показати",
                 ToPlacements: "До приміщень",
                 ErrorResponse: "Щось пійшло не так. Спробуйте ще раз пізніше.",
-                ColumnSearch: "Фільтр"
+                ColumnSearch: "Фільтр",
+                Warehouses: "Склади",
+                Medicines: "Лікарські засоби"
             }
         },
     },
