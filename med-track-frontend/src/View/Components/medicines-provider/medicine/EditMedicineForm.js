@@ -10,7 +10,7 @@ function EditWarehouseForm() {
     const [body, setBody] = useState({})
 
     useEffect(() => {
-        axios.get(`${SERVER_URL}/medicines-providers/warehouses/${localStorage.getItem("warehouseId")}`)
+        axios.get(`/medicines-providers/medicines/${localStorage.getItem("medicineId")}`)
             .then(result => {
                     setBody(result.data)
                     setIsLoaded(true);
@@ -18,14 +18,12 @@ function EditWarehouseForm() {
             )
     }, [])
 
-    if (!isLoaded) {
-        return <DefaultLoader height={400} width={425}/>
-    }
+    if (!isLoaded) return <DefaultLoader height={400} width={425}/>;
     return <div className="container">
         <AddEditEntityForm requestPayload={{
             function: axios.put,
-            url: `${SERVER_URL}/medicines-providers/${localStorage.getItem('UserEmail')}/warehouses`,
-            entityId: 'warehouseId',
+            url: `/medicines-providers/${localStorage.getItem('UserEmail')}/medicines`,
+            entityId: 'medicineId',
             body
         }} fields={FIELDS} formName={EDIT_FORM_NAME}/>
     </div>

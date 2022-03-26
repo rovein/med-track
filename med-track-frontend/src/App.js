@@ -12,14 +12,16 @@ import SignUp from './View/Components/navigation/SignUp'
 import Profile from './View/Components/navigation/Profile'
 import {withTranslation} from 'react-i18next'
 import Edit from './View/Components/navigation/Edit';
-import AddRoom from './View/Components/navigation/placement/AddPlacement'
+import AddPlacement from './View/Components/navigation/warehouse/placement/AddPlacement'
 import Contract from './View/Components/navigation/contract/Contract'
 import SignContract from './View/Components/contract/CreateContract';
-import EditRoom from './View/Components/navigation/placement/EditPlacement';
+import EditPlacement from './View/Components/navigation/warehouse/placement/EditPlacement';
 import ConfigureDevice from "./View/Components/navigation/ConfigureDevice";
-import Info from "./View/Components/navigation/PlacementInfo";
+import Info from "./View/Components/navigation/warehouse/placement/PlacementInfo";
 import AddWarehouse from "./View/Components/navigation/warehouse/AddWarehouse";
 import EditWarehouse from "./View/Components/navigation/warehouse/EditWarehouse";
+import AddMedicine from "./View/Components/navigation/medicine/AddMedicine";
+import EditMedicine from "./View/Components/navigation/medicine/EditMedicine";
 
 class App extends React.Component {
     constructor(props) {
@@ -45,8 +47,11 @@ class App extends React.Component {
                         <Route path='/add-warehouse' component={AddWarehouse}/>
                         <Route path='/edit-warehouse' component={EditWarehouse}/>
 
-                        <Route path='/add_room' component={AddRoom}/>
-                        <Route path='/edit_room' component={EditRoom}/>
+                        <Route path='/add-medicine' component={AddMedicine}/>
+                        <Route path='/edit-medicine' component={EditMedicine}/>
+
+                        <Route path='/add-placement' component={AddPlacement}/>
+                        <Route path='/edit-placement' component={EditPlacement}/>
 
                         <Route path='/contracts' component={Contract}/>
                         <Route path='/sign_contract' component={SignContract}/>

@@ -58,6 +58,7 @@ class Header extends React.Component {
                             <li><a href="/profile" id="PR">{t("Profile")}</a></li>
                             <li><a href="/edit" id="PR">{t('EditP')}</a></li>
                             <li><a href="/add-warehouse" id="PR">{t("AddWarehouse")}</a></li>
+                            <li><a href="/add-medicine" id="PR">{t("AddMedicine")}</a></li>
                             <li><a onClick={() => this.signout()} id="SO">{t("Signout")}</a></li>
                         </ul>
                     </nav>

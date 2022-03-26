@@ -5,6 +5,7 @@ import jwt_decode from "jwt-decode"
 import * as Constants from "../util/Constants";
 import axios from "../util/ApiUtil";
 import WarehousesTable from "./warehouse/WarehousesTable";
+import MedicinesTable from "./medicine/MedicinesTable";
 
 const url = Constants.SERVER_URL;
 if (localStorage.getItem("Token") != null) {
@@ -68,11 +69,8 @@ class Profile extends React.Component {
                             {t("FCountry")}: {this.state.provider.country}
                         </p>
                     </div>
-                    {/*<div className="rooms_back">*/}
-                    {/*    <p>{t("Rooms")}</p>*/}
-                    {/*</div>*/}
                     <div id="rooms_container">
-                        <WarehousesTable/>
+                        <MedicinesTable/>
                     </div>
                 </div>
             )
