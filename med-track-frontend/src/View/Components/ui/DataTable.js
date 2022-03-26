@@ -14,7 +14,6 @@ import {useTranslation, withTranslation} from "react-i18next";
 import axios from '../util/ApiUtil';
 import * as Constants from "../util/Constants";
 import DefaultLoader from "./Loader";
-import doWithDelay from "../util/DelayUtil";
 
 const baseUrl = Constants.SERVER_URL;
 
@@ -58,6 +57,7 @@ function Table({columns, data, operations, searchPlaceholder}) {
     const [deleteUrl, setDeleteUrl] = React.useState("")
     const [deleteCallback, setDeleteCallback] = React.useState(() => (id) => console.log(id))
     const [isLoaded, setIsLoaded] = useState(true)
+    const [showFilters, setShowFilters] = useState(false)
 
     const defaultColumn = React.useMemo(() => ({Filter: DefaultColumnFilter}), [])
 
@@ -140,16 +140,21 @@ function Table({columns, data, operations, searchPlaceholder}) {
                                 </span>
                                 </th>
                             ))}
-                            {operations.length === 0 ? <></> : <th></th>}
+                            {operations.length === 0 ? <></> :
+                                <th>
+                                    {t("ColumnSearch")} <input className={"w3-check"} type="checkbox"
+                                                               onChange={() => setShowFilters(!showFilters)}/>
+                                </th>}
                         </tr>
-                        <tr {...headerGroup.getHeaderGroupProps()} className={"w3-light-grey"}>
+                        {showFilters && <tr {...headerGroup.getHeaderGroupProps()} className={"w3-light-grey"}>
                             {headerGroup.headers.map(column =>
                                 <th className={"w3-border-bottom w3-border-black"}>
                                     {column.canFilter && column.id !== 'actions' ? column.render('Filter') : null}
                                 </th>
                             )}
-                            {operations.length === 0 ? <></> : <th className={"w3-border-bottom w3-border-black"}></th>}
+                            {operations.length === 0 ? <></> : <th className={"w3-border-bottom w3-border-black"}/>}
                         </tr>
+                        }
                     </>
                 ))}
                 </thead>

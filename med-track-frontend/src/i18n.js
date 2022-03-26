@@ -121,7 +121,8 @@ i18n.use(LanguageDetector).init({
         Page: "Page",
         Show: "Show",
         ToPlacements: "To placements",
-        ErrorResponse: "Something went wrong. Try again later."
+        ErrorResponse: "Something went wrong. Try again later.",
+        ColumnSearch: "Column search"
       }
     },
     UA: {
@@ -240,7 +241,8 @@ i18n.use(LanguageDetector).init({
         Page: "Сторінка",
         Show: "Показати",
         ToPlacements: "До приміщень",
-        ErrorResponse: "Щось пійшло не так. Спробуйте ще раз пізніше."
+        ErrorResponse: "Щось пійшло не так. Спробуйте ще раз пізніше.",
+        ColumnSearch: "Пошук за колонкою"
       }
     },
   },
