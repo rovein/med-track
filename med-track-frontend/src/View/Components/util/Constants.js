@@ -3,3 +3,5 @@ export const SERVER_URL = "http://localhost:8181";
 export const DELAY = 1000;
 export const ADMIN = "ADMIN";
 export const MEDICINES_PROVIDER = "MEDICINES_PROVIDER";
+export const MEDICINES = "MEDICINES";
+export const WAREHOUSES = "WAREHOUSES";

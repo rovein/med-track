@@ -72,8 +72,9 @@ class SignInForm extends React.Component {
             const token = result.token;
             localStorage.setItem('Token', token);
             const decoded = jwt_decode(token)
-            localStorage.setItem('UserEmail', decoded.email)
-            localStorage.setItem('UserRole', decoded.role)
+            localStorage.setItem('UserEmail', decoded.email);
+            localStorage.setItem('UserRole', decoded.role);
+            localStorage.setItem("profileShownTable", "WAREHOUSES");
             window.location.href = './profile';
         } catch (error) {
             const response = error.response

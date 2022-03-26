@@ -4,11 +4,16 @@ import {useTranslation, withTranslation} from 'react-i18next';
 import axios from "../util/ApiUtil";
 import MedicinesTable from "./medicine/MedicinesTable";
 import WarehousesTable from "./warehouse/WarehousesTable";
+import {MEDICINES, WAREHOUSES} from "../util/Constants";
 
 function Profile() {
+    if (localStorage.getItem("Token") == null) {
+        window.location.href = './'
+    }
+    localStorage.removeItem("Id")
 
     const [provider, setProvider] = useState({})
-    const [shownTable, setShownTable] = useState("WAREHOUSES")
+    const [shownTable, setShownTable] = useState(localStorage.getItem("profileShownTable"))
 
     useEffect(() => {
         let cachedMedicinesProvider = localStorage.getItem("medicinesProvider");
@@ -24,10 +29,19 @@ function Profile() {
             )
     }, [])
 
-    localStorage.removeItem("Id")
-    if (localStorage.getItem("Token") == null) {
-        window.location.href = './'
+    const buttonStyle = {padding: 0, height: '26px', fontSize: '18px'};
+
+    const setTable = tableName => {
+        localStorage.setItem("profileShownTable", tableName);
+        setShownTable(tableName)
     }
+
+    const getStyleClasses = tableName => {
+        const baseStyle = "w3-btn w3-round-small";
+        const colorStyle = shownTable === tableName ? " w3-teal" : " w3-khaki";
+        return baseStyle + colorStyle;
+    }
+
     const {t} = useTranslation();
     return (
         <div>
@@ -35,13 +49,11 @@ function Profile() {
                 <p id="cName">{provider.name}</p>
                 <p></p>
                 <p>{t("Email")}: {provider.email}</p>
-                <button style={{padding: 0, height: '26px', fontSize: '18px'}}
-                        className={shownTable === "WAREHOUSES" ? "w3-teal w3-btn w3-round-small" : "w3-khaki w3-btn w3-round-small"}
-                        onClick={() => setShownTable("WAREHOUSES")}>{t("Warehouses")}</button>
+                <button style={buttonStyle} className={getStyleClasses(WAREHOUSES)}
+                        onClick={() => setTable(WAREHOUSES)}>{t("Warehouses")}</button>
                 <p>{t("Phone")}: {provider.phoneNumber}</p>
-                <button style={{padding: 0, height: '26px', fontSize: '18px'}}
-                        className={shownTable === "MEDICINES" ? "w3-teal w3-btn w3-round-small" : "w3-khaki w3-btn w3-round-small"}
-                        onClick={() => setShownTable("MEDICINES")}>{t("Medicines")}</button>
+                <button style={buttonStyle} className={getStyleClasses(MEDICINES)}
+                        onClick={() => setTable(MEDICINES)}>{t("Medicines")}</button>
                 <p>{t("FCountry")}: {provider.country}</p>
             </div>
             <div id="rooms_container">
