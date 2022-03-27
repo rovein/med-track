@@ -1,18 +1,19 @@
 import React, {useEffect, useState} from 'react'
+import {withTranslation} from 'react-i18next'
 import axios from "../../util/ApiUtil";
-import {SERVER_URL} from "../../util/Constants";
-import AddEditEntityForm from "../../ui/AddEditEntityForm";
-import {EDIT_FORM_NAME, FIELDS} from "./AddEditWarehouseFormConfig";
 import DefaultLoader from "../../ui/Loader";
+import AddEditEntityForm from "../../ui/AddEditEntityForm";
+import {EDIT_FORM_NAME, FIELDS} from "./AddEditPlacementFormConfig";
 
-function EditWarehouseForm() {
+function EditPlacementForm() {
     const [isLoaded, setIsLoaded] = useState(false)
     const [body, setBody] = useState({})
 
     useEffect(() => {
-        axios.get(`${SERVER_URL}/medicines-providers/warehouses/${localStorage.getItem("warehouseId")}`)
+        axios.get(`/medicines-providers/warehouses/placements/${localStorage.getItem('placementId')}`)
             .then(result => {
-                    setBody(result.data)
+                    const data = result.data;
+                    setBody(data);
                     setIsLoaded(true);
                 }
             )
@@ -22,12 +23,12 @@ function EditWarehouseForm() {
     return <div className="container">
         <AddEditEntityForm requestPayload={{
             function: axios.put,
-            url: `${SERVER_URL}/medicines-providers/${localStorage.getItem('UserEmail')}/warehouses`,
-            entityId: 'warehouseId',
-            redirectUrl: './profile',
+            url: `/medicines-providers/warehouses/${localStorage.getItem('currentWarehouseId')}/placements`,
+            entityId: 'placementId',
+            redirectUrl: './placements',
             body
         }} fields={FIELDS} formName={EDIT_FORM_NAME}/>
     </div>
 }
 
-export default EditWarehouseForm
+export default withTranslation()(EditPlacementForm);

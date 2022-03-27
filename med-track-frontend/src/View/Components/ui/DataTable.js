@@ -275,7 +275,10 @@ function Table({columns, data, operations, searchPlaceholder}) {
 
 function DataTableComponent({displayData, displayColumns, operations, searchPlaceholder}) {
 
-    const [data, setData] = useState(displayData)
+    const sortedData = displayData.sort((current, next) => {
+        return current.id - next.id
+    })
+    const [data, setData] = useState(sortedData)
 
     const columns = React.useMemo(() => [...displayColumns], [])
 

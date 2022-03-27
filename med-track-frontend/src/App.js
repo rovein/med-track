@@ -13,14 +13,13 @@ import Profile from './View/Components/navigation/user/Profile'
 import {withTranslation} from 'react-i18next'
 import Edit from './View/Components/navigation/user/Edit';
 import AddPlacement from './View/Components/navigation/placement/AddPlacement'
-import Contract from './View/Components/navigation/contract/Contract'
-import SignContract from './View/Components/contract/CreateContract';
 import EditPlacement from './View/Components/navigation/placement/EditPlacement';
 import ConfigureDevice from "./View/Components/navigation/admin/ConfigureDevice";
 import AddWarehouse from "./View/Components/navigation/warehouse/AddWarehouse";
 import EditWarehouse from "./View/Components/navigation/warehouse/EditWarehouse";
 import AddMedicine from "./View/Components/navigation/medicine/AddMedicine";
 import EditMedicine from "./View/Components/navigation/medicine/EditMedicine";
+import PlacementsPage from "./View/Components/navigation/placement/PlacementsPage";
 
 class App extends React.Component {
     constructor(props) {
@@ -49,9 +48,7 @@ class App extends React.Component {
 
                         <Route path='/add-placement' component={AddPlacement}/>
                         <Route path='/edit-placement' component={EditPlacement}/>
-
-                        <Route path='/contracts' component={Contract}/>
-                        <Route path='/sign_contract' component={SignContract}/>
+                        <Route path='/placements' component={PlacementsPage}/>
 
                         <Route path='/configure-smart-device' component={ConfigureDevice}/>
                         <Redirect from='/' to='/login'/>

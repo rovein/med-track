@@ -8,7 +8,8 @@ function AddMedicineForm() {
         function: axios.post,
         url: `/medicines-providers/${localStorage.getItem('UserEmail')}/medicines`,
         body: {},
-        entityId: 'medicineId'
+        entityId: 'medicineId',
+        redirectUrl: './profile'
     }
 
     return <div className="container">

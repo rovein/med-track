@@ -9,7 +9,8 @@ function AddWarehouseForm() {
         function: axios.post,
         url: `${SERVER_URL}/medicines-providers/${localStorage.getItem('UserEmail')}/warehouses`,
         body: {},
-        entityId: 'warehouseId'
+        entityId: 'warehouseId',
+        redirectUrl: './profile'
     }
 
     return <div className="container">

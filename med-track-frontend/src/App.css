@@ -191,7 +191,7 @@ button:focus {
   margin: 10px 0 10px 25%;
 }
 
-#cName {
+.entityName {
   font-size: 36px;
   /*color: #fbfbfb;*/
   font-weight: bold;

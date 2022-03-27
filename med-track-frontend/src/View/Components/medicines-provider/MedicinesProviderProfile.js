@@ -46,7 +46,7 @@ function Profile() {
     return (
         <div>
             <div className="w3-light-grey w3-text-black w3-border w3-border-black profile_back">
-                <p id="cName">{provider.name}</p>
+                <p className={'entityName'}>{provider.name}</p>
                 <p></p>
                 <p>{t("Email")}: {provider.email}</p>
                 <button style={buttonStyle} className={getStyleClasses(WAREHOUSES)}

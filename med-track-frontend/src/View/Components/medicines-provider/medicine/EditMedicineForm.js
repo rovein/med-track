@@ -26,6 +26,7 @@ function EditMedicineForm() {
             function: axios.put,
             url: `/medicines-providers/${localStorage.getItem('UserEmail')}/medicines`,
             entityId: 'medicineId',
+            redirectUrl: './profile',
             body
         }} fields={FIELDS} formName={EDIT_FORM_NAME}/>
     </div>

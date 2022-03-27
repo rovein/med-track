@@ -39,7 +39,8 @@ requestPayload:
     function: axios.post,
     url: `${SERVER_URL}/medicines-providers/${localStorage.getItem('UserEmail')}/warehouses`,
     body: {id: 1, city: 'Харків', street: 'Бакуліна', house: '22'},
-    entityId: 'warehouseId'
+    entityId: 'warehouseId',
+    redirectUrl: './profile'
 }
 
 formName:
@@ -61,18 +62,18 @@ function AddEditEntityForm({requestPayload, fields, formName}) {
     const onSubmit = data => {
         if (!_.isEmpty(errors)) return;
         setIsLoaded(false)
-        requestPayload.function(requestPayload.url, data)
-            .then(result => {
-                    if (result.data) {
-                        localStorage.removeItem(requestPayload.entityId)
-                        window.location.href = './profile';
+        try {
+            requestPayload.function(requestPayload.url, data)
+                .then(result => {
+                        if (result.data) {
+                            localStorage.removeItem(requestPayload.entityId)
+                            window.location.href = requestPayload.redirectUrl;
+                        }
                     }
-                },
-                error => {
-                    console.log(error);
-                    setIsErrorResponse(true);
-                }
-            )
+                )
+        } catch (e) {
+            setIsErrorResponse(true);
+        }
     };
 
     if (!isLoaded) {

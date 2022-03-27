@@ -28,6 +28,7 @@ function WarehousesTable() {
 
     function goToPlacementsPage(id) {
         localStorage.setItem("currentWarehouseId", id);
+        localStorage.setItem("currentWarehouse", JSON.stringify(data.find(warehouse => warehouse.id === id)))
         window.location.href = "./placements";
     }
 
