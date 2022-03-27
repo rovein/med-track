@@ -1,22 +1,23 @@
 import React from 'react'
 import {withTranslation} from 'react-i18next'
+import {getCurrentLanguage, setCurrentLanguage} from "../util/LocalStorageUtils";
 
 class Header extends React.Component {
     constructor(props) {
         super(props)
-        if (localStorage.getItem("i18nextLng") !== "UA") {
+        if (getCurrentLanguage() !== "UA") {
             this.state = {
                 value: "EN"
             }
-            localStorage.setItem("i18nextLng", "EN")
+            setCurrentLanguage("EN")
         } else {
             this.state = {
-                value: localStorage.getItem("i18nextLng")
+                value: getCurrentLanguage()
             }
         }
     }
 
-    onLanguageHandle = (event) => {
+    onLanguageHandle = _ => {
         if (this.state.value === 'EN') {
             let newLang = 'UA';
             this.setState({value: newLang})

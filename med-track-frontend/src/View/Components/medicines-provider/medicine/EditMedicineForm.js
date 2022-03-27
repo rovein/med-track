@@ -4,13 +4,14 @@ import AddEditEntityForm from "../../ui/AddEditEntityForm";
 import {EDIT_FORM_NAME, FIELDS} from "./AddEditMedicineFormConfig";
 import DefaultLoader from "../../ui/Loader";
 import Moment from "moment";
+import {getEditMedicineId, getCurrentUserEmail} from "../../util/LocalStorageUtils";
 
 function EditMedicineForm() {
     const [isLoaded, setIsLoaded] = useState(false)
     const [body, setBody] = useState({})
 
     useEffect(() => {
-        axios.get(`/medicines-providers/medicines/${localStorage.getItem("medicineId")}`)
+        axios.get(`/medicines-providers/medicines/${getEditMedicineId()}`)
             .then(result => {
                     const data = result.data;
                     data.shelfLife = Moment(data.shelfLife).format("YYYY-MM-DD");
@@ -24,7 +25,7 @@ function EditMedicineForm() {
     return <div className="container" style={{marginTop: "1%"}}>
         <AddEditEntityForm requestPayload={{
             function: axios.put,
-            url: `/medicines-providers/${localStorage.getItem('UserEmail')}/medicines`,
+            url: `/medicines-providers/${getCurrentUserEmail()}/medicines`,
             entityId: 'medicineId',
             redirectUrl: './profile',
             body

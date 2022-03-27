@@ -4,13 +4,14 @@ import axios from "../../util/ApiUtil";
 import DefaultLoader from "../../ui/Loader";
 import AddEditEntityForm from "../../ui/AddEditEntityForm";
 import {EDIT_FORM_NAME, FIELDS} from "./AddEditPlacementFormConfig";
+import {getCurrentWarehouseId, getEditPlacementId} from "../../util/LocalStorageUtils";
 
 function EditPlacementForm() {
     const [isLoaded, setIsLoaded] = useState(false)
     const [body, setBody] = useState({})
 
     useEffect(() => {
-        axios.get(`/medicines-providers/warehouses/placements/${localStorage.getItem('placementId')}`)
+        axios.get(`/medicines-providers/warehouses/placements/${getEditPlacementId()}`)
             .then(result => {
                     const data = result.data;
                     setBody(data);
@@ -23,7 +24,7 @@ function EditPlacementForm() {
     return <div className="container">
         <AddEditEntityForm requestPayload={{
             function: axios.put,
-            url: `/medicines-providers/warehouses/${localStorage.getItem('currentWarehouseId')}/placements`,
+            url: `/medicines-providers/warehouses/${getCurrentWarehouseId()}/placements`,
             entityId: 'placementId',
             redirectUrl: './placements',
             body

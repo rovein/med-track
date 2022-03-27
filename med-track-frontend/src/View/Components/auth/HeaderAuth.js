@@ -1,39 +1,32 @@
 import React from 'react'
 import {withTranslation} from 'react-i18next';
-import jwt_decode from "jwt-decode"
 import {ADMIN, MEDICINES_PROVIDER} from "../util/Constants";
-
-if (localStorage.getItem("Token") != null) {
-    var token = localStorage.getItem("Token")
-    var decoded = jwt_decode(token)
-}
+import {checkToken, clearLocalStorage, getCurrentLanguage, getCurrentUserRole, setCurrentLanguage} from "../util/LocalStorageUtils";
 
 class Header extends React.Component {
     signout() {
-        var lng = localStorage.getItem("i18nextLng")
-        localStorage.clear();
-        localStorage.setItem("i18nextLng", lng)
+        const language = getCurrentLanguage();
+        clearLocalStorage();
+        setCurrentLanguage(language)
         window.location.href = '/';
     }
 
     constructor(props) {
         super(props)
-        if (localStorage.getItem("i18nextLng") !== "UA") {
+        if (getCurrentLanguage() !== "UA") {
             this.state = {
                 value: "EN"
             }
-            localStorage.setItem("i18nextLng", "EN")
+            setCurrentLanguage("EN")
         } else {
             this.state = {
-                value: localStorage.getItem("i18nextLng")
+                value: getCurrentLanguage()
             }
         }
-        if (localStorage.getItem("Token") == null) {
-            window.location.href = './login';
-        }
+        checkToken()
     }
 
-    onLanguageHandle = (event) => {
+    onLanguageHandle = _ => {
         if (this.state.value === 'EN') {
             let newLang = 'UA';
             this.setState({value: newLang})
@@ -47,7 +40,7 @@ class Header extends React.Component {
 
     render() {
         const {t} = this.props
-        if (decoded.role === MEDICINES_PROVIDER) {
+        if (getCurrentUserRole() === MEDICINES_PROVIDER) {
             return (
                 <div className="header">
                     <nav>
@@ -62,7 +55,7 @@ class Header extends React.Component {
                     </nav>
                 </div>
             )
-        } else if (decoded.role === ADMIN)
+        } else if (getCurrentUserRole() === ADMIN)
             return (
                 <div className="header">
                     <nav>

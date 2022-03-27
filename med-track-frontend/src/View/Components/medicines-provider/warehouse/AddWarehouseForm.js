@@ -3,11 +3,12 @@ import axios from "../../util/ApiUtil";
 import {SERVER_URL} from "../../util/Constants";
 import AddEditEntityForm from "../../ui/AddEditEntityForm";
 import {ADD_FORM_NAME, FIELDS} from "./AddEditWarehouseFormConfig";
+import {getCurrentUserEmail} from "../../util/LocalStorageUtils";
 
 function AddWarehouseForm() {
     const requestPayload = {
         function: axios.post,
-        url: `${SERVER_URL}/medicines-providers/${localStorage.getItem('UserEmail')}/warehouses`,
+        url: `${SERVER_URL}/medicines-providers/${getCurrentUserEmail()}/warehouses`,
         body: {},
         entityId: 'warehouseId',
         redirectUrl: './profile'

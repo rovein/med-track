@@ -6,9 +6,17 @@ import * as Constants from "../util/Constants";
 import {ADMIN, MEDICINES_PROVIDER} from "../util/Constants";
 import axios from "../util/ApiUtil";
 import DefaultLoader from "../ui/Loader";
+import {
+    getCurrentMedicinesProvider,
+    getCurrentUserEmail,
+    getCurrentUserRole,
+    getEditUserEmail,
+    getEditUserRole,
+    setCurrentMedicinesProvider
+} from "../util/LocalStorageUtils";
 
-const userRole = localStorage.getItem("UserRole");
-const userEmail = localStorage.getItem("UserEmail");
+const userRole = getCurrentUserRole();
+const userEmail = getCurrentUserEmail();
 
 class EditUserProfileForm extends React.Component {
     constructor(props) {
@@ -32,19 +40,6 @@ class EditUserProfileForm extends React.Component {
         })
     }
 
-    resetForm() {
-        this.setState({
-            name: '',
-            email: '',
-            phone: '',
-            country: '',
-            password: '',
-            confirmPassword: '',
-            buttonDisabled: false,
-            isLoaded: true
-        })
-    }
-
     turnOffLoader() {
         this.setState({
             buttonDisabled: false,
@@ -54,12 +49,29 @@ class EditUserProfileForm extends React.Component {
 
     componentDidMount() {
         if (userRole === MEDICINES_PROVIDER) {
-            this.getData(`$/medicines-providers/${userEmail}`);
+            if (this.checkCachedMedicinesProvider()) return;
+            this.getData(`/medicines-providers/${userEmail}`);
         } else if (userRole === ADMIN) {
-            if (localStorage.getItem("Role") === MEDICINES_PROVIDER) {
-                this.getData(`/medicines-providers/${localStorage.getItem("Email")}`);
+            if (getEditUserRole() === MEDICINES_PROVIDER) {
+                this.getData(`/medicines-providers/${getEditUserEmail()}`);
             }
         }
+    }
+
+    checkCachedMedicinesProvider() {
+        const cached = getCurrentMedicinesProvider();
+        if (cached != null) {
+            this.setState({
+                isLoaded: true,
+                name: cached.name,
+                email: cached.email,
+                phone: cached.phoneNumber,
+                country: cached.country,
+                id: cached.id
+            })
+            return true
+        }
+        return false
     }
 
     getData(resUrl) {
@@ -162,7 +174,7 @@ class EditUserProfileForm extends React.Component {
         if (userRole === MEDICINES_PROVIDER) {
             this.editUserProfile(`/medicines-providers`);
         } else if (userRole === ADMIN) {
-            if (localStorage.getItem("Role") === MEDICINES_PROVIDER) {
+            if (getEditUserRole() === MEDICINES_PROVIDER) {
                 this.editUserProfile(`/medicines-providers`);
             }
         }
@@ -170,7 +182,7 @@ class EditUserProfileForm extends React.Component {
 
     async editUserProfile(resUrl) {
         try {
-            const role = userRole !== "ADMIN" ? userRole : localStorage.getItem("Role");
+            const role = userRole !== "ADMIN" ? userRole : getEditUserRole();
 
             let requestBody = {
                 name: this.state.name,
@@ -188,14 +200,14 @@ class EditUserProfileForm extends React.Component {
             let res = await axios.put(resUrl, requestBody)
             let result = await res.data
             if (result && result.id !== null) {
-                localStorage.setItem("medicinesProvider", JSON.stringify({
+                setCurrentMedicinesProvider({
                     name: this.state.name,
                     email: this.state.email,
                     id: this.state.id,
                     phoneNumber: this.state.phone,
                     country: this.state.country,
                     role: role
-                }));
+                });
                 window.location.href = './profile';
             }
         } catch (e) {

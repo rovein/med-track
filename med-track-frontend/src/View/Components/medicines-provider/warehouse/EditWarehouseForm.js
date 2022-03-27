@@ -1,16 +1,16 @@
 import React, {useEffect, useState} from 'react'
 import axios from "../../util/ApiUtil";
-import {SERVER_URL} from "../../util/Constants";
 import AddEditEntityForm from "../../ui/AddEditEntityForm";
 import {EDIT_FORM_NAME, FIELDS} from "./AddEditWarehouseFormConfig";
 import DefaultLoader from "../../ui/Loader";
+import {getCurrentUserEmail, getEditWarehouseId} from "../../util/LocalStorageUtils";
 
 function EditWarehouseForm() {
     const [isLoaded, setIsLoaded] = useState(false)
     const [body, setBody] = useState({})
 
     useEffect(() => {
-        axios.get(`${SERVER_URL}/medicines-providers/warehouses/${localStorage.getItem("warehouseId")}`)
+        axios.get(`/medicines-providers/warehouses/${getEditWarehouseId()}`)
             .then(result => {
                     setBody(result.data)
                     setIsLoaded(true);
@@ -22,7 +22,7 @@ function EditWarehouseForm() {
     return <div className="container">
         <AddEditEntityForm requestPayload={{
             function: axios.put,
-            url: `${SERVER_URL}/medicines-providers/${localStorage.getItem('UserEmail')}/warehouses`,
+            url: `/medicines-providers/${getCurrentUserEmail()}/warehouses`,
             entityId: 'warehouseId',
             redirectUrl: './profile',
             body

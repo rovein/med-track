@@ -1,14 +1,15 @@
 import {useTranslation, withTranslation} from "react-i18next";
 import React, {useEffect, useState} from "react";
 import PlacementsTable from "./PlacementsTable";
+import {getCurrentWarehouse, getCurrentMedicinesProvider} from "../../util/LocalStorageUtils";
 
 function PlacementsProfile() {
     const [provider, setProvider] = useState({})
     const [warehouse, setWarehouse] = useState({})
 
     useEffect(() => {
-        setProvider(JSON.parse(localStorage.getItem("medicinesProvider")));
-        setWarehouse(JSON.parse(localStorage.getItem("currentWarehouse")))
+        setProvider(getCurrentMedicinesProvider());
+        setWarehouse(getCurrentWarehouse())
     }, [])
 
     const {t} = useTranslation();

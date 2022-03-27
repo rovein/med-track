@@ -4,6 +4,7 @@ import {useTranslation, withTranslation} from 'react-i18next'
 import * as Constants from "../util/Constants";
 import _ from "lodash";
 import DefaultLoader from "./Loader";
+import {removeItem} from "../util/LocalStorageUtils";
 
 /*
 fields:
@@ -15,22 +16,6 @@ fields:
     pattern: /^([А-Яа-яё]+)|([A-Za-z]+)$/i,
     error: 'ECity',
     iconClassName: 'w3-xxlarge fas fa-city'
-  },
-  {
-    label: 'FStreet',
-    inputType: 'text',
-    name: 'street',
-    pattern: /^([А-Яа-яё]+)|([A-Za-z]+)$/i,
-    error: 'EStreet',
-    iconClassName: 'w3-xxlarge fas fa-road'
-  },
-  {
-   label: 'FHouse',
-    inputType: 'text',
-    name: 'house',
-    pattern: /^([0-9]+)|([0-9А-Яа-я]+)|([0-9A-Za-z]+)$/i,
-    error: 'EHouse',
-    iconClassName: 'w3-xxlarge fas fa-home'
   }
 ]
 
@@ -66,7 +51,7 @@ function AddEditEntityForm({requestPayload, fields, formName}) {
             requestPayload.function(requestPayload.url, data)
                 .then(result => {
                         if (result.data) {
-                            localStorage.removeItem(requestPayload.entityId)
+                            removeItem(requestPayload.entityId)
                             window.location.href = requestPayload.redirectUrl;
                         }
                     }

@@ -5,34 +5,42 @@ import axios from "../util/ApiUtil";
 import MedicinesTable from "./medicine/MedicinesTable";
 import WarehousesTable from "./warehouse/WarehousesTable";
 import {MEDICINES, WAREHOUSES} from "../util/Constants";
+import {
+    checkToken,
+    getCurrentMedicinesProvider,
+    getProfileShownTable,
+    getCurrentUserEmail,
+    setCurrentMedicinesProvider, setProfileShownTable
+} from "../util/LocalStorageUtils";
 
 function Profile() {
-    if (localStorage.getItem("Token") == null) {
-        window.location.href = './'
-    }
-    localStorage.removeItem("Id")
+    checkToken();
 
     const [provider, setProvider] = useState({})
-    const [shownTable, setShownTable] = useState(localStorage.getItem("profileShownTable"))
+    const [shownTable, setShownTable] = useState(getProfileShownTable())
+
+    const checkCachedMedicinesProvider = () => {
+        const cachedMedicinesProvider = getCurrentMedicinesProvider();
+        if (cachedMedicinesProvider != null) {
+            setProvider(cachedMedicinesProvider);
+            return true
+        }
+        return false
+    }
 
     useEffect(() => {
-        let cachedMedicinesProvider = localStorage.getItem("medicinesProvider");
-        if (cachedMedicinesProvider != null) {
-            setProvider(JSON.parse(cachedMedicinesProvider));
-            return
-        }
-        axios.get(`/medicines-providers/${localStorage.getItem('UserEmail')}`)
-            .then(result => {
-                    setProvider(result.data);
-                    localStorage.setItem("medicinesProvider", JSON.stringify(result.data));
-                }
-            )
+        if (checkCachedMedicinesProvider()) return;
+        axios.get(`/medicines-providers/${getCurrentUserEmail()}`).then(result => {
+                setProvider(result.data);
+                setCurrentMedicinesProvider(result.data);
+            }
+        )
     }, [])
 
     const buttonStyle = {padding: 0, height: '26px', fontSize: '18px'};
 
     const setTable = tableName => {
-        localStorage.setItem("profileShownTable", tableName);
+        setProfileShownTable(tableName);
         setShownTable(tableName)
     }
 

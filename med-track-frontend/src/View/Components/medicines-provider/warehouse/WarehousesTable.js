@@ -5,13 +5,14 @@ import DefaultLoader from "../../ui/Loader";
 import DataTableComponent from "../../ui/DataTable";
 import {FIELDS} from "./AddEditWarehouseFormConfig";
 import getEntityColumns from "../../util/TableUtil";
+import {getCurrentUserEmail, setCurrentWarehouse, setCurrentWarehouseId, setEditWarehouseId} from "../../util/LocalStorageUtils";
 
 function WarehousesTable() {
     const [data, setData] = useState([])
     const [isLoaded, setIsLoaded] = useState(false)
 
     useEffect(() => {
-        axios.get(`/medicines-providers/${localStorage.getItem('UserEmail')}/warehouses`)
+        axios.get(`/medicines-providers/${getCurrentUserEmail()}/warehouses`)
             .then(result => {
                 const data = result.data
                 setData(data)
@@ -22,13 +23,13 @@ function WarehousesTable() {
     const columns = React.useMemo(() => getEntityColumns(FIELDS, true), [])
 
     function editEntity(id) {
-        localStorage.setItem("warehouseId", id);
+        setEditWarehouseId(id);
         window.location.href = "./edit-warehouse";
     }
 
     function goToPlacementsPage(id) {
-        localStorage.setItem("currentWarehouseId", id);
-        localStorage.setItem("currentWarehouse", JSON.stringify(data.find(warehouse => warehouse.id === id)))
+        setCurrentWarehouseId(id);
+        setCurrentWarehouse(data.find(warehouse => warehouse.id === id));
         window.location.href = "./placements";
     }
 

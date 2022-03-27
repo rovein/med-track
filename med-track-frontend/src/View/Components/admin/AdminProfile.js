@@ -4,6 +4,7 @@ import AdminMedicinesProvidersTable from './AdminMedicinesProvidersTable';
 import axios from "axios";
 import SweetAlert from "react-bootstrap-sweetalert";
 import * as Constants from "../util/Constants";
+import {getToken, removeEditUserEmail, removeEditUserRole} from "../util/LocalStorageUtils";
 
 const url = Constants.SERVER_URL;
 const FileDownload = require("js-file-download");
@@ -33,17 +34,17 @@ class Profile extends React.Component {
                 Accept: "application/octet-stream",
                 "Content-Type": "application/octet-stream",
                 "Content-Disposition": "attachment; filename='backup_data.sql'",
-                Authorization: "Bearer " + localStorage.getItem("Token"),
+                Authorization: "Bearer " + getToken(),
             },
-            responseType: "blob", // Important
+            responseType: "blob",
         }).then((response) => {
             FileDownload(response.data, `backup_data.sql`);
         });
     }
 
     render() {
-        localStorage.removeItem("Email")
-        localStorage.removeItem("Role")
+        removeEditUserEmail();
+        removeEditUserRole();
         const adminBack = {
             textAlign: "center",
             fontSize: "25px",

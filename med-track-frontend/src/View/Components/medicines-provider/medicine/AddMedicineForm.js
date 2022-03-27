@@ -2,11 +2,12 @@ import React from 'react'
 import axios from "../../util/ApiUtil";
 import AddEditEntityForm from "../../ui/AddEditEntityForm";
 import {ADD_FORM_NAME, FIELDS} from "./AddEditMedicineFormConfig";
+import {getCurrentUserEmail} from "../../util/LocalStorageUtils";
 
 function AddMedicineForm() {
     const requestPayload = {
         function: axios.post,
-        url: `/medicines-providers/${localStorage.getItem('UserEmail')}/medicines`,
+        url: `/medicines-providers/${getCurrentUserEmail()}/medicines`,
         body: {},
         entityId: 'medicineId',
         redirectUrl: './profile'

@@ -6,6 +6,7 @@ import axios from "../util/ApiUtil";
 import * as Constants from "../util/Constants";
 import DefaultLoader from "../ui/Loader";
 import {MEDICINES_PROVIDER} from "../util/Constants";
+import {setEditUserEmail, setEditUserRole} from "../util/LocalStorageUtils";
 
 const url = Constants.SERVER_URL;
 
@@ -44,7 +45,8 @@ class AdminMedicinesProvidersTable extends React.Component {
         if (error) {
             return <div className='additional'>{t("Failiture")}: {error.message}</div>;
         } else if (!isLoaded) {
-            return <DefaultLoader height={400} width={425} isCentered={false} style={{marginLeft: '36%', paddingTop: '20px'}}/>
+            return <DefaultLoader height={400} width={425} isCentered={false}
+                                  style={{marginLeft: '36%', paddingTop: '20px'}}/>
         } else {
             return (
                 <div>
@@ -130,8 +132,8 @@ class AdminMedicinesProvidersTable extends React.Component {
                         className='w3-btn w3-khaki w3-round-small w3-medium'
                         text={t('Edit')}
                         onClick={_ => {
-                            localStorage.setItem("Email", provider.email)
-                            localStorage.setItem("Role", MEDICINES_PROVIDER)
+                            setEditUserEmail(provider.email)
+                            setEditUserRole(MEDICINES_PROVIDER)
                             window.location.href = './edit';
                         }}/> &nbsp;
                     <Button

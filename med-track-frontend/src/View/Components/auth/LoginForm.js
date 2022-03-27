@@ -4,8 +4,9 @@ import Button from '../ui/Button'
 import {withTranslation} from 'react-i18next'
 import * as Constants from "../util/Constants";
 import DefaultLoader from "../ui/Loader";
-import jwt_decode from "jwt-decode";
 import {authInstance} from "../util/ApiUtil";
+import {WAREHOUSES} from "../util/Constants";
+import {setProfileShownTable, setToken, setTokenValues} from "../util/LocalStorageUtils";
 
 class SignInForm extends React.Component {
     constructor(props) {
@@ -62,19 +63,16 @@ class SignInForm extends React.Component {
             isLoaded: false
         })
         try {
-            let res = await authInstance.post(`/auth/login`,
+            let result = await authInstance.post(`/auth/login`,
                 {
                     email: this.state.email,
                     password: this.state.password
                 }
             )
-            const result = res.data;
-            const token = result.token;
-            localStorage.setItem('Token', token);
-            const decoded = jwt_decode(token)
-            localStorage.setItem('UserEmail', decoded.email);
-            localStorage.setItem('UserRole', decoded.role);
-            localStorage.setItem("profileShownTable", "WAREHOUSES");
+            const token = result.data.token;
+            setToken(token);
+            setTokenValues(token);
+            setProfileShownTable(WAREHOUSES);
             window.location.href = './profile';
         } catch (error) {
             const response = error.response

@@ -1,21 +1,20 @@
 import React from 'react'
 import Header from '../../ui/Header'
 import SignUpTabBar from '../../auth/SignUpTabBar';
+import {clearLocalStorage, getCurrentLanguage, setCurrentLanguage} from "../../util/LocalStorageUtils";
 
-class SignUp extends React.Component{
-    render() {
-        var lng = localStorage.getItem("i18nextLng")
-              localStorage.clear();
-              localStorage.setItem("i18nextLng", lng)   
-        return(
-            <div className="signIn">
+function SignUp() {
+    const language = getCurrentLanguage();
+    clearLocalStorage();
+    setCurrentLanguage(language);
+    return (
+        <div className="signIn">
             <Header/>
-                <div className="container">
+            <div className="container">
                 <SignUpTabBar/>
             </div>
         </div>
-        )
-    }
+    )
 }
 
 export default SignUp;

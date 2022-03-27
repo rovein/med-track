@@ -6,13 +6,14 @@ import DataTableComponent from "../../ui/DataTable";
 import {FIELDS} from "./AddEditMedicineFormConfig";
 import Moment from "moment";
 import getEntityColumns from "../../util/TableUtil";
+import {getCurrentUserEmail, setEditMedicineId} from "../../util/LocalStorageUtils";
 
 function MedicinesTable() {
     const [data, setData] = useState([])
     const [isLoaded, setIsLoaded] = useState(false)
 
     useEffect(() => {
-        axios.get(`/medicines-providers/${localStorage.getItem("UserEmail")}/medicines`)
+        axios.get(`/medicines-providers/${getCurrentUserEmail()}/medicines`)
             .then(result => {
                 const data = result.data.map(medicine => {
                     medicine.price = medicine.price + " ₴"
@@ -30,7 +31,7 @@ function MedicinesTable() {
     const columns = React.useMemo(() => getEntityColumns(FIELDS, false), [])
 
     function editEntity(id) {
-        localStorage.setItem("medicineId", id);
+        setEditMedicineId(id);
         window.location.href = "./edit-medicine";
     }
 

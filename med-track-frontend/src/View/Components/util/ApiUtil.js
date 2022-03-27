@@ -1,6 +1,7 @@
 import axios from 'axios';
 import {SERVER_URL} from "./Constants";
 import delay from "./DelayUtil";
+import {getToken} from "./LocalStorageUtils";
 
 const instance = axios.create({
     baseURL: SERVER_URL
@@ -9,8 +10,8 @@ instance.interceptors.request.use(async config => {
     await delay();
     console.log("REQUEST")
     console.log(config)
-    if (localStorage.getItem("Token") != null) {
-        const token = localStorage.getItem("Token");
+    const token = getToken();
+    if (token != null) {
         config.headers.common.Authorization = `Bearer ${token}`;
         config.headers['Accept'] = "application/json";
         config.headers['Content-Type'] = "application/json";
