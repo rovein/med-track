@@ -7,17 +7,16 @@ import {
     BrowserRouter,
     Redirect
 } from "react-router-dom"
-import SignIn from './View/Components/navigation/Login'
-import SignUp from './View/Components/navigation/SignUp'
-import Profile from './View/Components/navigation/Profile'
+import SignIn from './View/Components/navigation/auth/Login'
+import SignUp from './View/Components/navigation/auth/SignUp'
+import Profile from './View/Components/navigation/user/Profile'
 import {withTranslation} from 'react-i18next'
-import Edit from './View/Components/navigation/Edit';
-import AddPlacement from './View/Components/navigation/warehouse/placement/AddPlacement'
+import Edit from './View/Components/navigation/user/Edit';
+import AddPlacement from './View/Components/navigation/placement/AddPlacement'
 import Contract from './View/Components/navigation/contract/Contract'
 import SignContract from './View/Components/contract/CreateContract';
-import EditPlacement from './View/Components/navigation/warehouse/placement/EditPlacement';
-import ConfigureDevice from "./View/Components/navigation/ConfigureDevice";
-import Info from "./View/Components/navigation/warehouse/placement/PlacementInfo";
+import EditPlacement from './View/Components/navigation/placement/EditPlacement';
+import ConfigureDevice from "./View/Components/navigation/admin/ConfigureDevice";
 import AddWarehouse from "./View/Components/navigation/warehouse/AddWarehouse";
 import EditWarehouse from "./View/Components/navigation/warehouse/EditWarehouse";
 import AddMedicine from "./View/Components/navigation/medicine/AddMedicine";
@@ -41,8 +40,6 @@ class App extends React.Component {
 
                         <Route path='/profile' component={Profile}/>
                         <Route path='/edit' component={Edit}/>
-
-                        <Route path='/more' component={Info}/>
 
                         <Route path='/add-warehouse' component={AddWarehouse}/>
                         <Route path='/edit-warehouse' component={EditWarehouse}/>

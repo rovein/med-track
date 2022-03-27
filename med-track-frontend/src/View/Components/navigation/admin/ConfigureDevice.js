@@ -1,6 +1,6 @@
 import React from 'react'
-import Header from '../auth/HeaderAuth'
-import ConfigureSmartDevice from "../admin/ConfigureSmartDevice";
+import Header from '../../auth/HeaderAuth'
+import ConfigureSmartDevice from "../../admin/ConfigureSmartDevice";
 
 class ConfigureDevice extends React.Component {
 

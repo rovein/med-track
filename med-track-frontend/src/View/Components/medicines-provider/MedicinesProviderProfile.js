@@ -56,9 +56,9 @@ function Profile() {
                         onClick={() => setTable(MEDICINES)}>{t("Medicines")}</button>
                 <p>{t("FCountry")}: {provider.country}</p>
             </div>
-            <div id="rooms_container">
-                {shownTable === 'WAREHOUSES' && <WarehousesTable/>}
-                {shownTable === 'MEDICINES' && <MedicinesTable/>}
+            <div>
+                {shownTable === WAREHOUSES && <WarehousesTable/>}
+                {shownTable === MEDICINES && <MedicinesTable/>}
             </div>
         </div>
     )

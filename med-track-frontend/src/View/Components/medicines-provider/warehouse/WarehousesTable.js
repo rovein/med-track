@@ -1,24 +1,17 @@
 import React, {useEffect, useState} from "react";
 import {withTranslation} from "react-i18next";
-import jwt_decode from "jwt-decode";
 import axios from "../../util/ApiUtil";
 import DefaultLoader from "../../ui/Loader";
 import DataTableComponent from "../../ui/DataTable";
-import * as Constants from "../../util/Constants";
+import {FIELDS} from "./AddEditWarehouseFormConfig";
+import getEntityColumns from "../../util/TableUtil";
 
 function WarehousesTable() {
-    const baseUrl = Constants.SERVER_URL;
-    let decoded
-    if (localStorage.getItem("Token") != null) {
-        decoded = jwt_decode(localStorage.getItem("Token"));
-    }
-
-    const dataUrl = `${baseUrl}/medicines-providers/${decoded.email}/warehouses`
     const [data, setData] = useState([])
     const [isLoaded, setIsLoaded] = useState(false)
 
     useEffect(() => {
-        axios.get(dataUrl)
+        axios.get(`/medicines-providers/${localStorage.getItem('UserEmail')}/warehouses`)
             .then(result => {
                 const data = result.data
                 setData(data)
@@ -26,27 +19,7 @@ function WarehousesTable() {
             })
     }, [])
 
-    const columns = React.useMemo(
-        () => [
-            {
-                Header: 'ID',
-                accessor: 'id',
-            },
-            {
-                Header: "FCity",
-                accessor: 'city',
-            },
-            {
-                Header: "FStreet",
-                accessor: 'street'
-            },
-            {
-                Header: "FHouse",
-                accessor: 'house'
-            }
-        ],
-        []
-    )
+    const columns = React.useMemo(() => getEntityColumns(FIELDS), [])
 
     function editEntity(id) {
         localStorage.setItem("warehouseId", id);
@@ -54,7 +27,7 @@ function WarehousesTable() {
     }
 
     function goToPlacementsPage(id) {
-        localStorage.setItem("warehouseId", id);
+        localStorage.setItem("currentWarehouseId", id);
         window.location.href = "./placements";
     }
 

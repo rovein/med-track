@@ -5,6 +5,7 @@ import DefaultLoader from "../../ui/Loader";
 import DataTableComponent from "../../ui/DataTable";
 import {FIELDS} from "./AddEditMedicineFormConfig";
 import Moment from "moment";
+import getEntityColumns from "../../util/TableUtil";
 
 function MedicinesTable() {
     const [data, setData] = useState([])
@@ -26,19 +27,7 @@ function MedicinesTable() {
             })
     }, [])
 
-    const columns = React.useMemo(() => {
-        const entityColumns = FIELDS.map(field => {
-            return {
-                Header: field.label,
-                accessor: field.name
-            }
-        })
-        entityColumns.unshift({
-            Header: 'ID',
-            accessor: 'id',
-        })
-        return entityColumns
-    }, [])
+    const columns = React.useMemo(() => getEntityColumns(FIELDS), [])
 
     function editEntity(id) {
         localStorage.setItem("medicineId", id);

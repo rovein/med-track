@@ -12,10 +12,7 @@ import Button from "./Button";
 import SweetAlert from "react-bootstrap-sweetalert";
 import {useTranslation, withTranslation} from "react-i18next";
 import axios from '../util/ApiUtil';
-import * as Constants from "../util/Constants";
 import DefaultLoader from "./Loader";
-
-const baseUrl = Constants.SERVER_URL;
 
 function GlobalFilter({globalFilter, setGlobalFilter, searchPlaceholder}) {
     const {t} = useTranslation();
@@ -105,7 +102,7 @@ function Table({columns, data, operations, searchPlaceholder}) {
     }
 
     function deleteEntity(url, id) {
-        axios.delete(`${baseUrl}/${url}`)
+        axios.delete(`/${url}`)
             .then(result => {
                 deleteCallback(id)
                 setIsLoaded(true)

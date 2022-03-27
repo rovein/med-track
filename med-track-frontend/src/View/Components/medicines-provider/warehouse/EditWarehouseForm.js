@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 import axios from "../../util/ApiUtil";
 import {SERVER_URL} from "../../util/Constants";
 import AddEditEntityForm from "../../ui/AddEditEntityForm";
-import {EDIT_FORM_NAME, FIELDS} from "../../navigation/warehouse/AddEditWarehouseFormConfig";
+import {EDIT_FORM_NAME, FIELDS} from "./AddEditWarehouseFormConfig";
 import DefaultLoader from "../../ui/Loader";
 
 function EditWarehouseForm() {

@@ -1,6 +1,6 @@
 import React from 'react'
-import Header from '../auth/HeaderAuth'
-import EditForm from '../auth/EditUserProfileForm'
+import Header from '../../auth/HeaderAuth'
+import EditForm from '../../auth/EditUserProfileForm'
 class Edit extends React.Component{
     
     render() { 

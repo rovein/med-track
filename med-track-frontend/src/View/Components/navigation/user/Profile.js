@@ -1,9 +1,9 @@
 import React from 'react'
-import Header from '../auth/HeaderAuth'
+import Header from '../../auth/HeaderAuth'
 import jwt_decode from "jwt-decode"
-import MedicinesProviderProfile from '../medicines-provider/MedicinesProviderProfile'
-import AdminProfile from '../admin/AdminProfile'
-import {ADMIN, MEDICINES_PROVIDER} from "../util/Constants";
+import MedicinesProviderProfile from '../../medicines-provider/MedicinesProviderProfile'
+import AdminProfile from '../../admin/AdminProfile'
+import {ADMIN, MEDICINES_PROVIDER} from "../../util/Constants";
 
 if (localStorage.getItem("Token") != null) {
     var token = localStorage.getItem("Token")

@@ -1,6 +1,6 @@
 import React from 'react'
-import Header from '../ui/Header'
-import LoginForm from '../auth/LoginForm'
+import Header from '../../ui/Header'
+import LoginForm from '../../auth/LoginForm'
 class Login extends React.Component{
     
     render() { 

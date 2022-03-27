@@ -2,7 +2,7 @@ import React from 'react'
 import axios from "../../util/ApiUtil";
 import {SERVER_URL} from "../../util/Constants";
 import AddEditEntityForm from "../../ui/AddEditEntityForm";
-import {ADD_FORM_NAME, FIELDS} from "../../navigation/warehouse/AddEditWarehouseFormConfig";
+import {ADD_FORM_NAME, FIELDS} from "./AddEditWarehouseFormConfig";
 
 function AddWarehouseForm() {
     const requestPayload = {
