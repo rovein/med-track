@@ -19,7 +19,7 @@ function WarehousesTable() {
             })
     }, [])
 
-    const columns = React.useMemo(() => getEntityColumns(FIELDS), [])
+    const columns = React.useMemo(() => getEntityColumns(FIELDS, true), [])
 
     function editEntity(id) {
         localStorage.setItem("warehouseId", id);
@@ -55,7 +55,8 @@ function WarehousesTable() {
 
     if (!isLoaded) return <DefaultLoader height={325} width={325}/>;
     return <DataTableComponent displayData={data} displayColumns={columns}
-                               operations={operations} searchPlaceholder={"GlobalWarehousesSearch"}/>
+                               operations={operations} searchPlaceholder={"GlobalWarehousesSearch"}
+                               addFormUrl={'./add-warehouse'}/>
 }
 
 export default withTranslation()(WarehousesTable);

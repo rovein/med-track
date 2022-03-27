@@ -27,7 +27,7 @@ function MedicinesTable() {
             })
     }, [])
 
-    const columns = React.useMemo(() => getEntityColumns(FIELDS), [])
+    const columns = React.useMemo(() => getEntityColumns(FIELDS, false), [])
 
     function editEntity(id) {
         localStorage.setItem("medicineId", id);
@@ -51,7 +51,8 @@ function MedicinesTable() {
 
     if (!isLoaded) return <DefaultLoader height={325} width={325}/>;
     return <DataTableComponent displayData={data} displayColumns={columns}
-                               operations={operations} searchPlaceholder={"GlobalMedicinesSearch"}/>
+                               operations={operations} searchPlaceholder={"GlobalMedicinesSearch"}
+                               addFormUrl={'./add-medicine'}/>
 }
 
 export default withTranslation()(MedicinesTable);

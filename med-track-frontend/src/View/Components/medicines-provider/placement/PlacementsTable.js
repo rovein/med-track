@@ -27,7 +27,7 @@ function PlacementsTable() {
     }, [])
 
     const columns = React.useMemo(() => {
-        const columns = getEntityColumns(FIELDS);
+        const columns = getEntityColumns(FIELDS, true);
         columns.push(
             {
                 Header: 'Temp',
@@ -68,7 +68,8 @@ function PlacementsTable() {
 
     if (!isLoaded) return <DefaultLoader height={325} width={325}/>;
     return <DataTableComponent displayData={data} displayColumns={columns}
-                               operations={operations} searchPlaceholder={"GlobalPlacementsSearch"}/>
+                               operations={operations} searchPlaceholder={"GlobalPlacementsSearch"}
+                               addFormUrl={'./add-placement'}/>
 }
 
 export default withTranslation()(PlacementsTable);

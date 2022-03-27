@@ -48,7 +48,7 @@ function DefaultColumnFilter({column: {filterValue, setFilter}}) {
     )
 }
 
-function Table({columns, data, operations, searchPlaceholder}) {
+function Table({columns, data, operations, searchPlaceholder, addFormUrl}) {
     const [id, setId] = React.useState(-1)
     const [deleteClicked, setDeleteClicked] = React.useState(false)
     const [deleteUrl, setDeleteUrl] = React.useState("")
@@ -60,6 +60,10 @@ function Table({columns, data, operations, searchPlaceholder}) {
 
     const {t} = useTranslation();
     const columnStyle = {verticalAlign: "middle"};
+    const buttonStyle = {width: "120px"};
+    const getFilterButtonStyles = () => {
+        return showFilters ? "w3-btn w3-teal w3-round-small w3-medium" : "w3-btn w3-khaki w3-round-small w3-medium"
+    }
 
     const {
         getTableProps,
@@ -138,9 +142,16 @@ function Table({columns, data, operations, searchPlaceholder}) {
                                 </th>
                             ))}
                             {operations.length === 0 ? <></> :
-                                <th>
-                                    {t("ColumnSearch")} <input className={"w3-check"} type="checkbox"
-                                                               onChange={() => setShowFilters(!showFilters)}/>
+                                <th className={"w3-centered"}>
+                                    <button className={getFilterButtonStyles()}
+                                            onClick={() => setShowFilters(!showFilters)}
+                                            style={buttonStyle}>
+                                        {t("ColumnSearch")}
+                                    </button>
+                                    <button
+                                        className="w3-btn w3-light-blue w3-round-small w3-medium"
+                                        style={buttonStyle}
+                                        onClick={() => window.location.href = addFormUrl}>{t("Add")}</button>
                                 </th>}
                         </tr>
                         {showFilters && <tr {...headerGroup.getHeaderGroupProps()} className={"w3-light-grey"}>
@@ -166,6 +177,7 @@ function Table({columns, data, operations, searchPlaceholder}) {
                             <td style={columnStyle}>
                                 {operations.map(operation => {
                                     return <><Button
+                                        style={buttonStyle}
                                         className={operation.className}
                                         text={t(operation.name)}
                                         onClick={() => {
@@ -176,7 +188,7 @@ function Table({columns, data, operations, searchPlaceholder}) {
                                                 operation.onClick(row.original[operation.onClickPassParameter])
                                             }
                                         }}
-                                    /> &nbsp;
+                                    />
                                     </>
                                 })}
                             </td>
@@ -273,7 +285,7 @@ function Table({columns, data, operations, searchPlaceholder}) {
     )
 }
 
-function DataTableComponent({displayData, displayColumns, operations, searchPlaceholder}) {
+function DataTableComponent({displayData, displayColumns, operations, searchPlaceholder, addFormUrl}) {
 
     const sortedData = displayData.sort((current, next) => {
         return current.id - next.id
@@ -297,7 +309,8 @@ function DataTableComponent({displayData, displayColumns, operations, searchPlac
     }, [])
 
     return (
-        <Table columns={columns} data={data} operations={operations} searchPlaceholder={searchPlaceholder}/>
+        <Table columns={columns} data={data} operations={operations} searchPlaceholder={searchPlaceholder}
+               addFormUrl={addFormUrl}/>
     )
 }
 
