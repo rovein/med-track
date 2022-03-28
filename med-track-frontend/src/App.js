@@ -19,7 +19,7 @@ import AddWarehouse from "./View/Components/navigation/warehouse/AddWarehouse";
 import EditWarehouse from "./View/Components/navigation/warehouse/EditWarehouse";
 import AddMedicine from "./View/Components/navigation/medicine/AddMedicine";
 import EditMedicine from "./View/Components/navigation/medicine/EditMedicine";
-import WarehouseInfoPage from "./View/Components/navigation/placement/WarehouseInfoPage";
+import WarehouseInfoPage from "./View/Components/navigation/warehouse/WarehouseInfoPage";
 
 class App extends React.Component {
     constructor(props) {

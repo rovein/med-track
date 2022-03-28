@@ -5,7 +5,8 @@ import DefaultLoader from "../../ui/Loader";
 import DataTableComponent from "../../ui/DataTable";
 import getEntityColumns from "../../util/TableUtil";
 import {FIELDS} from "./AddEditPlacementFormConfig";
-import {getCurrentWarehouseId, setEditPlacementId} from "../../util/LocalStorageUtils";
+import {getCurrentWarehouseId, setCurrentPlacementId, setEditPlacementId} from "../../util/LocalStorageUtils";
+import Moment from "moment";
 
 function PlacementsTable() {
     const [data, setData] = useState([])
@@ -16,10 +17,11 @@ function PlacementsTable() {
             .then(result => {
                 const data = result.data;
                 const updatedData = data.map(placement => {
+                    const device = placement.smartDevice;
                     return {
                         ...placement,
-                        temperature: placement.smartDevice.temperature,
-                        humidity: placement.smartDevice.humidity
+                        temperature: device.temperature + " °C",
+                        humidity: device.humidity + " %"
                     }
                 });
                 setData(updatedData)
@@ -37,9 +39,18 @@ function PlacementsTable() {
             {
                 Header: 'Hum',
                 accessor: 'humidity'
+            },
+            {
+                Header: 'ActualAmount',
+                accessor: 'actualAmount'
             })
         return columns;
     }, [])
+
+    function toStorages(id) {
+        setCurrentPlacementId(id)
+        window.location.href = "./storages";
+    }
 
     function editEntity(id) {
         setEditPlacementId(id);
@@ -47,12 +58,12 @@ function PlacementsTable() {
     }
 
     const operations = [
-        // {
-        //     "name": "More",
-        //     "onClick": openMore,
-        //     "className": "w3-btn w3-indigo w3-round-small w3-medium",
-        //     "onClickPassParameter": "id"
-        // },
+        {
+            "name": "ToStorages",
+            "onClick": toStorages,
+            "className": "w3-btn w3-indigo w3-round-small w3-medium",
+            "onClickPassParameter": "id"
+        },
         {
             "name": "Edit",
             "onClick": editEntity,

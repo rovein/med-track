@@ -137,7 +137,9 @@ i18n.use(LanguageDetector).init({
                 ColumnSearch: "Filter",
                 Warehouses: "Warehouses",
                 Warehouse: "Warehouse",
-                Medicines: "Medicines"
+                Medicines: "Medicines",
+                ToStorages: "To storages",
+                ActualAmount: "Medicines on storage"
             }
         },
         UA: {
@@ -272,7 +274,9 @@ i18n.use(LanguageDetector).init({
                 ColumnSearch: "Фільтр",
                 Warehouses: "Склади",
                 Warehouse: "Склад",
-                Medicines: "Лікарські засоби"
+                Medicines: "Лікарські засоби",
+                ToStorages: "До зберігань",
+                ActualAmount: "Ліків зберігається"
             }
         },
     },
