@@ -18,6 +18,11 @@ export const EDIT_PLACEMENT_ID = "editPlacementId";
 export const CURRENT_WAREHOUSE_ID = "currentWarehouseId";
 export const CURRENT_WAREHOUSE = "currentWarehouse"
 
+export const CURRENT_PLACEMENT_ID = "currentPlacementId";
+export const CURRENT_PLACEMENT = "currentPlacement";
+
+export const CURRENT_MEDICINE = "currentMedicine";
+
 
 export const clearLocalStorage = () => localStorage.clear()
 
@@ -80,3 +85,12 @@ export const setCurrentWarehouse = value => setObject(CURRENT_WAREHOUSE, value)
 
 export const getEditPlacementId = () => getItem(EDIT_PLACEMENT_ID)
 export const setEditPlacementId = value => setItem(EDIT_PLACEMENT_ID, value)
+
+export const getCurrentPlacementId = () => getItem(CURRENT_PLACEMENT_ID)
+export const setCurrentPlacementId = value => setItem(CURRENT_PLACEMENT_ID, value)
+
+export const getCurrentPlacement = () => getObject(CURRENT_PLACEMENT)
+export const setCurrentPlacement = value => setObject(CURRENT_PLACEMENT, value)
+
+export const getCurrentMedicine = () => getObject(CURRENT_MEDICINE)
+export const setCurrentMedicine = value => setObject(CURRENT_MEDICINE, value)

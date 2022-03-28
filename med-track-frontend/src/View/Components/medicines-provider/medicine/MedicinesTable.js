@@ -6,7 +6,11 @@ import DataTableComponent from "../../ui/DataTable";
 import {FIELDS} from "./AddEditMedicineFormConfig";
 import Moment from "moment";
 import getEntityColumns from "../../util/TableUtil";
-import {getCurrentUserEmail, setEditMedicineId} from "../../util/LocalStorageUtils";
+import {
+    getCurrentUserEmail,
+    setCurrentMedicine,
+    setEditMedicineId
+} from "../../util/LocalStorageUtils";
 
 function MedicinesTable() {
     const [data, setData] = useState([])
@@ -30,12 +34,23 @@ function MedicinesTable() {
 
     const columns = React.useMemo(() => getEntityColumns(FIELDS, false), [])
 
+    function goToStoragesPage(id) {
+        setCurrentMedicine(data.find(medicine => medicine.id === id));
+        window.location.href = `./storages/by-medicine/${id}`;
+    }
+
     function editEntity(id) {
         setEditMedicineId(id);
         window.location.href = "./edit-medicine";
     }
 
     const operations = [
+        {
+            "name": "ToStorages",
+            "onClick": goToStoragesPage,
+            "className": "w3-btn w3-indigo w3-round-small w3-medium",
+            "onClickPassParameter": "id"
+        },
         {
             "name": "Edit",
             "onClick": editEntity,

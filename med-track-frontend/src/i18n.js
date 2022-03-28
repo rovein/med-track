@@ -21,9 +21,15 @@ i18n.use(LanguageDetector).init({
                 FMedicineStorageForm: "Storage form",
                 FMedicineShelfLife: "Shelf life",
                 FMedicineMinTemp: "Min temperature",
+                FMinTempDetailed: "minimum temperature",
                 FMedicineMaxTemp: "Max temperature",
+                FMaxTempDetailed: "maximum temperature",
                 FMedicineMaxHumidity: "Max humidity",
-                Rooms: "Placements",
+                FMaxHumidityDetailed: "maximum humidity",
+                Temperature: "temperature",
+                From: "from",
+                To: "to",
+                Placement: "Placement",
                 Signout: "Sign out",
                 AddWarehouse: "Add warehouse",
                 EditWarehouse: "Edit warehouse",
@@ -139,7 +145,8 @@ i18n.use(LanguageDetector).init({
                 Warehouse: "Warehouse",
                 Medicines: "Medicines",
                 ToStorages: "To storages",
-                ActualAmount: "Medicines on storage"
+                ActualAmount: "Medicines on storage",
+                StorageConditions: "Storage conditions"
             }
         },
         UA: {
@@ -158,10 +165,16 @@ i18n.use(LanguageDetector).init({
                 FMedicineStorageForm: "Форма зберігання",
                 FMedicineShelfLife: "Строк придатності",
                 FMedicineMinTemp: "Min T",
+                FMinTempDetailed: "мінімальна температура",
                 FMedicineMaxTemp: "Max T",
+                FMaxTempDetailed: "максимальна температура",
                 FMedicineMaxHumidity: "Max φ",
+                FMaxHumidityDetailed: "максимальна вологість",
+                Temperature: "температура",
+                From: "від",
+                To: "до",
                 Signup: 'Зареєструватися',
-                Rooms: "Приміщення",
+                Placement: "Приміщення",
                 Signout: "Вийти",
                 PasswordChangeMsg: 'Залиште поля нижче порожніми, якщо не бажаєте змінювати пароль',
                 Actions: "Дії",
@@ -276,7 +289,8 @@ i18n.use(LanguageDetector).init({
                 Warehouse: "Склад",
                 Medicines: "Лікарські засоби",
                 ToStorages: "До зберігань",
-                ActualAmount: "Ліків зберігається"
+                ActualAmount: "Ліків зберігається",
+                StorageConditions: "Умови зберігання"
             }
         },
     },

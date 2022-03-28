@@ -5,8 +5,11 @@ import DefaultLoader from "../../ui/Loader";
 import DataTableComponent from "../../ui/DataTable";
 import getEntityColumns from "../../util/TableUtil";
 import {FIELDS} from "./AddEditPlacementFormConfig";
-import {getCurrentWarehouseId, setCurrentPlacementId, setEditPlacementId} from "../../util/LocalStorageUtils";
-import Moment from "moment";
+import {
+    getCurrentWarehouseId, setCurrentPlacement,
+    setCurrentPlacementId,
+    setEditPlacementId
+} from "../../util/LocalStorageUtils";
 
 function PlacementsTable() {
     const [data, setData] = useState([])
@@ -47,9 +50,10 @@ function PlacementsTable() {
         return columns;
     }, [])
 
-    function toStorages(id) {
+    function goToStoragesPage(id) {
         setCurrentPlacementId(id)
-        window.location.href = "./storages";
+        setCurrentPlacement(data.find(placement => placement.id === id));
+        window.location.href = `./storages/by-placement/${id}`;
     }
 
     function editEntity(id) {
@@ -60,7 +64,7 @@ function PlacementsTable() {
     const operations = [
         {
             "name": "ToStorages",
-            "onClick": toStorages,
+            "onClick": goToStoragesPage,
             "className": "w3-btn w3-indigo w3-round-small w3-medium",
             "onClickPassParameter": "id"
         },
