@@ -25,18 +25,17 @@ class AdminMedicinesProvidersTable extends React.Component {
     componentDidMount() {
         axios.get(`/medicines-providers`)
             .then(result => {
-                    this.setState({
-                        isLoaded: true,
-                        providers: result.data
-                    });
-                },
-                (error) => {
-                    this.setState({
-                        isLoaded: true,
-                        error
-                    });
-                }
-            )
+                this.setState({
+                    isLoaded: true,
+                    providers: result.data
+                });
+            })
+            .catch(error => {
+                this.setState({
+                    isLoaded: true,
+                    error
+                });
+            })
     }
 
     render() {
@@ -90,7 +89,8 @@ class AdminMedicinesProvidersTable extends React.Component {
 
     deleteProvider(email) {
         this.setState({isLoaded: false})
-        axios.delete(`/medicines-providers/${email}`).then(result => {
+        axios.delete(`/medicines-providers/${email}`)
+            .then(result => {
                 this.setState({
                     providers: this.state.providers.filter(company => {
                             return company.email !== email
@@ -99,8 +99,7 @@ class AdminMedicinesProvidersTable extends React.Component {
                     isLoaded: true,
                     deleteButtonClicked: false
                 })
-            },
-            (error) => {
+            }).catch(error => {
                 this.setState({
                     isLoaded: true,
                     error
@@ -148,13 +147,13 @@ class AdminMedicinesProvidersTable extends React.Component {
 
     lockUser(email) {
         this.setState({isLoaded: false})
-        axios.post(`${url}/admin/lock-user/${email}`).then(result => {
+        axios.post(`${url}/admin/lock-user/${email}`)
+            .then(_ => {
                 let idx = this.state.providers.findIndex(owner => owner.email === email);
                 let owners = this.state.providers;
                 owners[idx].isLocked = !owners[idx].isLocked;
                 this.setState({providers: owners, isLoaded: true})
-            },
-            (error) => {
+            }).catch(error => {
                 this.setState({
                     isLoaded: true,
                     error,

@@ -76,22 +76,21 @@ class EditUserProfileForm extends React.Component {
 
     getData(resUrl) {
         axios.get(resUrl).then(result => {
-                result = result.data
-                this.setState({
-                    isLoaded: true,
-                    name: result.name,
-                    email: result.email,
-                    phone: result.phoneNumber,
-                    country: result.country,
-                    id: result.id
-                });
-            },
-            (error) => {
-                this.setState({
-                    isLoaded: true,
-                    error
-                });
-            })
+            result = result.data
+            this.setState({
+                isLoaded: true,
+                name: result.name,
+                email: result.email,
+                phone: result.phoneNumber,
+                country: result.country,
+                id: result.id
+            });
+        }).catch(error => {
+            this.setState({
+                isLoaded: true,
+                error
+            });
+        })
     }
 
     checkEmail(email) {
