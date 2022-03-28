@@ -14,6 +14,7 @@ public class PlacementMapper {
         return new PlacementDto()
                 .setId(placement.getId())
                 .setType(placement.getType())
+                .setActualAmount(placement.getActualAmount())
                 .setSmartDevice(SmartDeviceMapper.toSmartDeviceDto(placement.getSmartDevice()));
     }
 

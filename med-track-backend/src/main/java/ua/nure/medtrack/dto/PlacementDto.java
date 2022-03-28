@@ -13,6 +13,8 @@ public class PlacementDto {
 
     private String type;
 
+    private Integer actualAmount;
+
     private SmartDeviceDto smartDevice;
 
 }

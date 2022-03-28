@@ -52,7 +52,7 @@ public class Placement {
     @ToString.Exclude
     private Set<MedicineStorage> medicineStorages;
 
-    public int getCapacity() {
+    public int getActualAmount() {
         if (medicineStorages == null || medicineStorages.isEmpty()) {
             return 0;
         }
