@@ -56,7 +56,7 @@ class AdminMedicinesProvidersTable extends React.Component {
                             <th>{t("DName")}</th>
                             <th>{t("Phone")}</th>
                             <th>{t("Email")}</th>
-                            <th>{t("IsLocked")}</th>
+                            <th>{t("IsActive")}</th>
                             <th></th>
                         </tr>
                         </thead>

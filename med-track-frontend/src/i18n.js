@@ -82,7 +82,7 @@ i18n.use(LanguageDetector).init({
                 accIsLocked: "Account is locked.",
                 LockUser: "Lock",
                 UnlockUser: "Unlock",
-                IsLocked: "Is locked",
+                IsActive: "Is Active",
 
                 DName: "Name",
                 checkCred: "Check the correctness of the entered data!",
@@ -219,7 +219,7 @@ i18n.use(LanguageDetector).init({
                 LockUser: "⠀Заблокувати⠀",
                 accIsLocked: "Цей обліковий запис заблоковано.",
                 UnlockUser: "Розблокувати⠀",
-                IsLocked: "Активований",
+                IsActive: "Активований",
                 BackupWillDownload: "Файл для відновлення даних буде завантажено через декілька секунд...",
                 Success: "Добре!",
 
