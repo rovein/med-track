@@ -11,7 +11,7 @@ function AddPlacementForm() {
         url: `/medicines-providers/warehouses/${getCurrentWarehouseId()}/placements`,
         body: {},
         entityId: 'placementId',
-        redirectUrl: './placements'
+        redirectUrl: './warehouse-info'
     }
 
     return <div className="container">

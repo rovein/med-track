@@ -1,9 +1,9 @@
 import {useTranslation, withTranslation} from "react-i18next";
 import React, {useEffect, useState} from "react";
-import PlacementsTable from "./PlacementsTable";
+import PlacementsTable from "../placement/PlacementsTable";
 import {getCurrentWarehouse, getCurrentMedicinesProvider} from "../../util/LocalStorageUtils";
 
-function PlacementsProfile() {
+function WarehouseInfo() {
     const [provider, setProvider] = useState({})
     const [warehouse, setWarehouse] = useState({})
 
@@ -32,4 +32,4 @@ function PlacementsProfile() {
     )
 }
 
-export default withTranslation()(PlacementsProfile)
+export default withTranslation()(WarehouseInfo)

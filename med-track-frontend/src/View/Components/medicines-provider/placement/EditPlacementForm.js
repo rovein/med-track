@@ -26,7 +26,7 @@ function EditPlacementForm() {
             function: axios.put,
             url: `/medicines-providers/warehouses/${getCurrentWarehouseId()}/placements`,
             entityId: 'placementId',
-            redirectUrl: './placements',
+            redirectUrl: './warehouse-info',
             body
         }} fields={FIELDS} formName={EDIT_FORM_NAME}/>
     </div>

@@ -30,7 +30,7 @@ function WarehousesTable() {
     function goToPlacementsPage(id) {
         setCurrentWarehouseId(id);
         setCurrentWarehouse(data.find(warehouse => warehouse.id === id));
-        window.location.href = "./placements";
+        window.location.href = "./warehouse-info";
     }
 
     const operations = [
