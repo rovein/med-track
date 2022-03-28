@@ -1,17 +1,15 @@
 import React from 'react'
 
-class Input extends React.Component {
-    render() {
-        return (
-            <input
-                disabled={this.props.disabled ? this.props.disabled : false}
-                className={this.props.className ? this.props.className : 'input'}
-                type={this.props.type}
-                placeholder={this.props.placeholder}
-                value={this.props.value}
-                onChange={(e) => this.props.onChange(e.target.value)}/>
-        )
-    }
+function Input(props) {
+    return (
+        <input
+            disabled={props.disabled ? props.disabled : false}
+            className={props.className ? props.className : 'input'}
+            type={props.type}
+            placeholder={props.placeholder}
+            value={props.value}
+            onChange={(e) => props.onChange(e.target.value)}/>
+    )
 }
 
 export default Input;

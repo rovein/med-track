@@ -12,8 +12,8 @@ class SignInForm extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            email: '',
-            password: '',
+            email: 'kek25dota@gmail.com',
+            password: 'medicines',
             buttonDisabled: false,
             isLoaded: true,
             flag: 1
