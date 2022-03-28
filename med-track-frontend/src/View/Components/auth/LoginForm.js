@@ -1,145 +1,90 @@
-import React from 'react'
-import Input from '../ui/Input'
-import Button from '../ui/Button'
-import {withTranslation} from 'react-i18next'
+import React, {useState} from 'react'
+import {useTranslation, withTranslation} from 'react-i18next'
 import * as Constants from "../util/Constants";
 import DefaultLoader from "../ui/Loader";
 import {authInstance} from "../util/ApiUtil";
 import {WAREHOUSES} from "../util/Constants";
 import {setProfileShownTable, setToken, setTokenValues} from "../util/LocalStorageUtils";
+import _ from "lodash";
+import {useForm} from "react-hook-form";
 
-class SignInForm extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            email: 'kek25dota@gmail.com',
-            password: 'medicines',
-            buttonDisabled: false,
-            isLoaded: true,
-            flag: 1
-        }
+function LoginForm() {
+    const [isLoaded, setIsLoaded] = useState(true);
+    const [error, setError] = useState("");
+    const {register, handleSubmit, formState: {errors}} = useForm();
+
+    const handleResult = result => {
+        const token = result.data.token;
+        setToken(token);
+        setTokenValues(token);
+        setProfileShownTable(WAREHOUSES);
+        window.location.href = './profile';
     }
 
-    setInputValue(property, val) {
-        val = val.trim()
-        this.setState({
-            [property]: val
-        })
+    const handleError = error => {
+        const data = error.response.data
+        if (data.trace.includes('account is locked')) {
+            setError("accIsLocked")
+        } else {
+            setError("checkCred")
+        }
+        setIsLoaded(true)
     }
 
-    checkEmail(email) {
-        let regEmail = new RegExp('^([a-z0-9_-]+.)*[a-z0-9_-]+@[a-z0-9_-]+(.[a-z0-9_-]+)*.[a-z]{2,6}$');
-        if (!regEmail.test(email)) {
-            this.setState({flag: 2});
-            return false
-        }
-        return true
+    const onSubmit = data => {
+        if (!_.isEmpty(errors)) return;
+        setIsLoaded(false);
+        authInstance.post(`/auth/login`, data).then(handleResult).catch(handleError);
     }
 
-    checkPass(password) {
-        if (password.length < 8) {
-            this.setState({flag: 3});
-            return false
-        }
-        return true
-    }
+    const {t} = useTranslation();
+    const inputClass = Constants.INPUT_STYLE_CLASSES;
+    const errorInputClass = inputClass + " w3-border-red";
 
-    resetForm() {
-        this.setState({
-            buttonDisabled: false,
-            isLoaded: true
-        })
-    }
+    if (!isLoaded) return <DefaultLoader height={400} width={425} isCentered={false}/>;
+    return (
+        <form className="w3-container w3-card-4 w3-light-grey w3-text-indigo w3-margin" style={{width: "700px"}}
+              onSubmit={handleSubmit(onSubmit)}>
 
-    async doSignIn() {
-        if (!this.checkEmail(this.state.email)) {
-            return
-        }
-        if (!this.checkPass(this.state.password)) {
-            return
-        }
-        this.setState({
-            buttonDisabled: true,
-            isLoaded: false
-        })
-        try {
-            let result = await authInstance.post(`/auth/login`,
-                {
-                    email: this.state.email,
-                    password: this.state.password
-                }
-            )
-            const token = result.data.token;
-            setToken(token);
-            setTokenValues(token);
-            setProfileShownTable(WAREHOUSES);
-            window.location.href = './profile';
-        } catch (error) {
-            const response = error.response
-            const data = response.data
-            if (data.message === "Access Denied" && data.trace.includes('account is locked')) {
-                this.setState({flag: 5});
-            } else {
-                this.setState({flag: 4});
-            }
-            this.resetForm()
-        }
-    }
+            <h1 className="w3-center">{t("Login")}</h1>
 
-    render() {
-        const {t} = this.props
-        const inputClass = Constants.INPUT_STYLE_CLASSES;
-        if (!this.state.isLoaded) {
-            return <DefaultLoader height={400} width={425} isCentered={false}/>
-        }
-        return (
-            <div
-                className="w3-container w3-card-4 w3-light-grey w3-text-indigo w3-margin"
-                style={{width: "700px"}}>
-                <h1 className="w3-center">{t("Login")}</h1>
-                <div className="sized-font w3-center w3-text-red">
-                    {this.state.flag === 2 && <p>{t("EEmail")}</p>}
-                    {this.state.flag === 3 && <p>{t("EPass")}</p>}
-                    {this.state.flag === 4 && <p>{t("checkCred")}</p>}
-                    {this.state.flag === 5 && <p>{t("accIsLocked")}</p>}
-                </div>
-                <div className="w3-row w3-section">
-                    <div className="w3-col" style={{width: "50px"}}>
-                        <i className="w3-xxlarge fas fa-envelope"/>
-                    </div>
-                    <div className="w3-rest">
-                        <Input
-                            className={this.state.flag === 2 ? inputClass + " w3-border-red" : inputClass}
-                            type='text'
-                            placeholder={t('Email')}
-                            value={this.state.email ? this.state.email : ''}
-                            onChange={(val) => this.setInputValue('email', val)}
-                        />
-                    </div>
-                </div>
-                <div className="w3-row w3-section">
-                    <div className="w3-col" style={{width: "50px"}}>
-                        <i className="w3-xxlarge fas fa-lock"/>
-                    </div>
-                    <div className="w3-rest">
-                        <Input
-                            className={this.state.flag === 3 ? inputClass + " w3-border-red" : inputClass}
-                            type='password'
-                            placeholder={t('Password')}
-                            value={this.state.password ? this.state.password : ''}
-                            onChange={(val) => this.setInputValue('password', val)}
-                        />
-                    </div>
-                </div>
-                <Button
-                    className="w3-btn w3-block w3-section w3-indigo w3-padding"
-                    text={t('Signin')}
-                    disabled={this.state.buttonDisabled}
-                    onClick={() => this.doSignIn()}
-                />
+            <div className="sized-font w3-center w3-text-red">
+                {error && <p>{t(error)}</p>}
             </div>
-        )
-    }
+
+            <div className="w3-row w3-section">
+                <div className="w3-col" style={{width: "50px"}}>
+                    <i className="w3-xxlarge fas fa-envelope"/>
+                </div>
+                <div className="w3-rest">
+                    <input type={"text"} className={errors["email"] ? errorInputClass : inputClass}
+                           placeholder={t('Email')}
+                           {...register("email", {
+                               required: true,
+                               pattern: /^([a-z0-9_-]+.)*[a-z0-9_-]+@[a-z0-9_-]+(.[a-z0-9_-]+)*.[a-z]{2,6}$/
+                           })} />
+                    {errors["email"] && <div><small className="w3-text-red">{t("EEmail")}</small><br/></div>}
+                </div>
+            </div>
+
+            <div className="w3-row w3-section">
+                <div className="w3-col" style={{width: "50px"}}>
+                    <i className="w3-xxlarge fas fa-lock"/>
+                </div>
+                <div className="w3-rest">
+                    <input type={"password"} className={errors["password"] ? errorInputClass : inputClass}
+                           placeholder={t('Password')}
+                           {...register("password", {
+                               required: true,
+                               pattern: /^.{8,20}$/
+                           })} />
+                    {errors["password"] && <div><small className="w3-text-red">{t("EPass")}</small><br/></div>}
+                </div>
+            </div>
+
+            <input className="w3-btn w3-block w3-section w3-indigo w3-padding" value={t('Signin')} type="submit"/>
+        </form>
+    );
 }
 
-export default withTranslation()(SignInForm);
+export default withTranslation()(LoginForm);

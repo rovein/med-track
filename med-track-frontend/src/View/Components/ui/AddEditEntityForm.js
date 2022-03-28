@@ -57,6 +57,7 @@ function AddEditEntityForm({requestPayload, fields, formName}) {
                     }
                 )
         } catch (e) {
+            setIsLoaded(true);
             setIsErrorResponse(true);
         }
     };
