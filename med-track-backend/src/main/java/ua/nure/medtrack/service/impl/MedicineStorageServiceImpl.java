@@ -31,7 +31,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 public class MedicineStorageServiceImpl implements MedicineStorageService {
@@ -163,25 +162,19 @@ public class MedicineStorageServiceImpl implements MedicineStorageService {
     @Override
     public Set<MedicineStorageInfoDto> getAllStoragesByPlacement(Long placementId) {
         return placementRepository.findById(placementId)
-                .map(placement ->
-                        calculateAndSetActualCapacity(medicineStorageRepository.getAllStoragesByPlacement(placementId)))
+                .map(Placement::getId)
+                .map(medicineStorageRepository::getAllStoragesByPlacement)
+                .map(MedicineStorageMapper::toMedicineStorageInfoDto)
                 .orElse(Collections.emptySet());
     }
 
     @Override
     public Set<MedicineStorageInfoDto> getAllStoragesByMedicine(Long medicineId) {
         return medicineRepository.findById(medicineId)
-                .map(medicine ->
-                        calculateAndSetActualCapacity(medicineStorageRepository.getAllStoragesByMedicine(medicineId)))
+                .map(Medicine::getId)
+                .map(medicineStorageRepository::getAllStoragesByMedicine)
+                .map(MedicineStorageMapper::toMedicineStorageInfoDto)
                 .orElse(Collections.emptySet());
-    }
-
-    private Set<MedicineStorageInfoDto> calculateAndSetActualCapacity(Set<MedicineStorageInfo> storages) {
-        int actualCapacity = storages.stream().mapToInt(MedicineStorageInfo::getAmount).sum();
-        return storages.stream()
-                .map(MedicineStorageInfoDto::new)
-                .map(infoDto -> infoDto.setActualCapacity(actualCapacity))
-                .collect(Collectors.toSet());
     }
 
     @Override

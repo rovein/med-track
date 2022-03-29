@@ -5,7 +5,6 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 @Data
 @Accessors(chain = true)
@@ -13,45 +12,44 @@ import java.util.Date;
 public class MedicineStorageInfoDto {
 
     public MedicineStorageInfoDto(MedicineStorageInfo medicineStorageInfo) {
-        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
+        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm dd.MM.yyyy");
 
         this.setId(medicineStorageInfo.getId())
-                .setStartDate(medicineStorageInfo.getStartDate())
+                .setStartDate(formatter.format(medicineStorageInfo.getStartDate()))
                 .setAmount(medicineStorageInfo.getAmount())
                 .setMedicineId(medicineStorageInfo.getMedicineId())
-                .setMedicineName(medicineStorageInfo.getMedicineName())
-                .setMedicinePrice(medicineStorageInfo.getMedicinePrice())
-                .setMedicineStorageForm(medicineStorageInfo.getMedicineStorageForm())
-                .setMedicineShelfLife(medicineStorageInfo.getMedicineShelfLife())
+                .setName(medicineStorageInfo.getMedicineName())
+                .setPrice(medicineStorageInfo.getMedicinePrice())
+                .setStorageForm(medicineStorageInfo.getMedicineStorageForm())
+                .setShelfLife(medicineStorageInfo.getMedicineShelfLife())
                 .setMinTemperature(medicineStorageInfo.getMinTemperature())
                 .setMaxTemperature(medicineStorageInfo.getMaxTemperature())
                 .setMaxHumidity(medicineStorageInfo.getMaxHumidity())
                 .setPlacementId(medicineStorageInfo.getPlacementId())
-                .setPlacementType(medicineStorageInfo.getPlacementType())
+                .setType(medicineStorageInfo.getPlacementType())
                 .setWarehouseId(medicineStorageInfo.getWarehouseId())
                 .setCity(medicineStorageInfo.getCity())
                 .setStreet(medicineStorageInfo.getStreet())
                 .setHouse(medicineStorageInfo.getHouse())
                 .setTemperature(medicineStorageInfo.getTemperature())
-                .setHumidity(medicineStorageInfo.getHumidity())
-                .setFormattedDate(formatter.format(medicineStorageInfo.getStartDate()));
+                .setHumidity(medicineStorageInfo.getHumidity());
     }
 
     private Long id;
 
-    private Date startDate;
+    private String startDate;
 
     private Integer amount;
 
     private Long medicineId;
 
-    private String medicineName;
+    private String name;
 
-    private String medicinePrice;
+    private String price;
 
-    private String medicineStorageForm;
+    private String storageForm;
 
-    private String medicineShelfLife;
+    private String shelfLife;
 
     private Long minTemperature;
 
@@ -61,7 +59,7 @@ public class MedicineStorageInfoDto {
 
     private Long placementId;
 
-    private String placementType;
+    private String type;
 
     private Long warehouseId;
 
@@ -74,9 +72,5 @@ public class MedicineStorageInfoDto {
     private Double temperature;
 
     private Double humidity;
-
-    private Integer actualCapacity;
-
-    private String formattedDate;
 
 }
