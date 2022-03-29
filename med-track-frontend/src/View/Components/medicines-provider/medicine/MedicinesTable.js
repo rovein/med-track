@@ -4,13 +4,13 @@ import axios from "../../util/ApiUtil";
 import DefaultLoader from "../../ui/Loader";
 import DataTableComponent from "../../ui/DataTable";
 import {FIELDS} from "./AddEditMedicineFormConfig";
-import Moment from "moment";
 import getEntityColumns from "../../util/TableUtil";
 import {
     getCurrentUserEmail,
     setCurrentMedicine,
     setEditMedicineId
 } from "../../util/LocalStorageUtils";
+import {formatMedicineData} from "../../util/DataFormattingUtil";
 
 function MedicinesTable() {
     const [data, setData] = useState([])
@@ -19,14 +19,7 @@ function MedicinesTable() {
     useEffect(() => {
         axios.get(`/medicines-providers/${getCurrentUserEmail()}/medicines`)
             .then(result => {
-                const data = result.data.map(medicine => {
-                    medicine.price = medicine.price + " ₴"
-                    medicine.minTemperature = medicine.minTemperature + " °C"
-                    medicine.maxTemperature = medicine.maxTemperature + " °C"
-                    medicine.maxHumidity = medicine.maxHumidity + " %"
-                    medicine.shelfLife = Moment(medicine.shelfLife).format('DD.MM.YYYY');
-                    return medicine
-                })
+                const data = result.data.map(formatMedicineData)
                 setData(data)
                 setIsLoaded(true)
             })

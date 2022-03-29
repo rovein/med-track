@@ -7,8 +7,10 @@ import {
     getCurrentMedicine
 } from "../../util/LocalStorageUtils";
 import {useParams} from "react-router-dom";
-import StoragesByPlacementInfoBlock from "./StoragesByPlacementInfoBlock";
-import StoragesByMedicineInfoBlock from "./StoragesByMedicinetInfoBlock";
+import StoragesByPlacementInfoBlock from "./by-placement/StoragesByPlacementInfoBlock";
+import StoragesByMedicineInfoBlock from "./by-medicine/StoragesByMedicinetInfoBlock";
+import StoragesByPlacementTable from "./by-placement/StoragesByPlacementTable";
+import StoragesByMedicineTable from "./by-medicine/StoragesByMedicineTable";
 
 function MedicineStorageInfo() {
     const { getBy, id } = useParams();
@@ -40,7 +42,8 @@ function MedicineStorageInfo() {
             {isStoragesByPlacement() && <StoragesByPlacementInfoBlock placement={placement} warehouse={warehouse}/>}
             {isStoragesByMedicines() && <StoragesByMedicineInfoBlock provider={provider} medicine={medicine}/>}
             <div>
-                //TODO() implement storages table based on placement or medicine
+                {isStoragesByPlacement() && <StoragesByPlacementTable id={id}/>}
+                {isStoragesByMedicines() && <StoragesByMedicineTable id={id}/>}
             </div>
         </div>
     )

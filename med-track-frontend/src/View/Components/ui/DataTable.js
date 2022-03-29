@@ -13,6 +13,7 @@ import SweetAlert from "react-bootstrap-sweetalert";
 import {useTranslation, withTranslation} from "react-i18next";
 import axios from '../util/ApiUtil';
 import DefaultLoader from "./Loader";
+import _ from "lodash";
 
 function GlobalFilter({globalFilter, setGlobalFilter, searchPlaceholder}) {
     const {t} = useTranslation();
@@ -172,7 +173,13 @@ function Table({columns, data, operations, searchPlaceholder, addFormUrl}) {
                     return (
                         <tr {...row.getRowProps()} className="w3-hover-sand">
                             {row.cells.map(cell => {
-                                return <td style={columnStyle} {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                                let style = columnStyle;
+                                const customStyle = cell.column.applyCustomStyle;
+                                if (customStyle) {
+                                    const originalData = page[0]?.original;
+                                    style = {...columnStyle, ...originalData[customStyle]}
+                                }
+                                return <td style={style}{...cell.getCellProps()}>{cell.render('Cell')}</td>
                             })}
                             <td style={columnStyle}>
                                 {operations.map(operation => {
@@ -291,13 +298,23 @@ function DataTableComponent({displayData, displayColumns, operations, searchPlac
         return current.id - next.id
     })
     const [data, setData] = useState(sortedData)
-
     const columns = React.useMemo(() => [...displayColumns], [])
+    const translateColumns = columns.filter(column => column.toTranslate).map(column => column.accessor)
+    const {t, i18n} = useTranslation();
 
     function deleteEntity(id) {
         let index = data.findIndex(entry => entry.id == id);
         data.splice(index, 1)
         setData(data.filter(entry => entry.id != id))
+    }
+
+    const translateTableData = () => {
+        setData(data.map(entry => {
+            translateColumns.forEach(column => {
+                entry[column] = t(entry[column + "Translate"])
+            })
+            return entry
+        }))
     }
 
     useEffect(() => {
@@ -306,6 +323,9 @@ function DataTableComponent({displayData, displayColumns, operations, searchPlac
                 operation.onClick = deleteEntity
             }
         })
+        if (_.isEmpty(translateColumns)) return;
+        translateTableData()
+        i18n.on("languageChanged", translateTableData)
     }, [])
 
     return (
