@@ -12,7 +12,7 @@ import java.text.SimpleDateFormat;
 public class MedicineStorageInfoDto {
 
     public MedicineStorageInfoDto(MedicineStorageInfo medicineStorageInfo) {
-        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm dd.MM.yyyy");
+        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy HH:mm");
 
         this.setId(medicineStorageInfo.getId())
                 .setStartDate(formatter.format(medicineStorageInfo.getStartDate()))
