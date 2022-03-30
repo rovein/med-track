@@ -35,7 +35,7 @@ function StoragesTable({storagesUrl, columns}) {
     if (!isLoaded) return <DefaultLoader height={325} width={325}/>;
     return <DataTableComponent displayData={data} displayColumns={columns}
                                operations={operations} searchPlaceholder={"GlobalStoragesSearch"}
-                               addFormUrl={'./add-storage'}/>
+                               addFormUrl={'/add-storage'}/>
 }
 
 export default withTranslation()(StoragesTable);

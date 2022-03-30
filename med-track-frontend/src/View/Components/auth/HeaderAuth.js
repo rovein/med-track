@@ -30,9 +30,11 @@ function Header(props) {
                 <ul className="nav_links">
                     <li><input type="button" id="locale" value={language}
                                onClick={() => onLanguageHandle(language, setLanguage, props.i18n)}/></li>
-                    <li><a href="/profile" id="PR">{t("Profile")}</a></li>
-                    {getCurrentUserRole() === MEDICINES_PROVIDER &&
-                        <li><a href="/edit" id="PR">{t('EditP')}</a></li>}
+                    <li><a href="/profile">{t("Profile")}</a></li>
+                    {getCurrentUserRole() === MEDICINES_PROVIDER && <>
+                        <li><a href="/edit">{t('EditP')}</a></li>
+                        <li><a href="/add-storage">{t('AddStorage')}</a></li>
+                    </>}
                     {getCurrentUserRole() === ADMIN && <>
                         <li><a href="/configure-smart-device" id="SM">{t("ConfigureDevice")}</a></li>
                         <li><a id="BC">{t("Backup")}</a></li>

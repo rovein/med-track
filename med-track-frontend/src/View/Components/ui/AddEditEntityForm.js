@@ -47,19 +47,19 @@ function AddEditEntityForm({requestPayload, fields, formName}) {
     const onSubmit = data => {
         if (!_.isEmpty(errors)) return;
         setIsLoaded(false)
-        try {
-            requestPayload.function(requestPayload.url, data)
-                .then(result => {
-                        if (result.data) {
-                            removeItem(requestPayload.entityId)
-                            window.location.href = requestPayload.redirectUrl;
-                        }
+
+        requestPayload.function(requestPayload.url, data)
+            .then(result => {
+                    if (result.data) {
+                        removeItem(requestPayload.entityId)
+                        window.location.href = requestPayload.redirectUrl;
                     }
-                )
-        } catch (e) {
-            setIsLoaded(true);
-            setIsErrorResponse(true);
-        }
+                }
+            )
+            .catch(e => {
+                setIsLoaded(true);
+                setIsErrorResponse(true);
+            })
     };
 
     if (!isLoaded) {

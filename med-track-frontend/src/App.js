@@ -21,6 +21,7 @@ import AddMedicine from "./View/Components/navigation/medicine/AddMedicine";
 import EditMedicine from "./View/Components/navigation/medicine/EditMedicine";
 import WarehouseInfoPage from "./View/Components/navigation/warehouse/WarehouseInfoPage";
 import MedicineStorageInfoPage from "./View/Components/navigation/medicine-storage/MedicineStorageInfoPage";
+import AddMedicineStorage from "./View/Components/navigation/medicine-storage/AddMedicineStorage";
 
 class App extends React.Component {
     constructor(props) {
@@ -54,6 +55,7 @@ class App extends React.Component {
                         <Route path={'/storages/:getBy/:id'} children={MedicineStorageInfoPage}/>
                         <Route path='/configure-smart-device' component={ConfigureDevice}/>
 
+                        <Route path={'/add-storage'} component={AddMedicineStorage}/>
                         <Redirect from='/' to='/login'/>
                     </Switch>
                 </BrowserRouter>
