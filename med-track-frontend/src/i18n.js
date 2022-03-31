@@ -156,7 +156,11 @@ i18n.use(LanguageDetector).init({
                 ShelfLifeState: "Shelf life state",
                 Normal: "normal",
                 Violated: "violated",
-                FWarehouseAddress: "Warehouse address"
+                FWarehouseAddress: "Warehouse address",
+                StorageCreationTemperatureError: "Temperature in placement: {{actualTemperature, number}} ℃. " +
+                    "Storage interval is from {{minTemperature, number}} to {{maxTemperature, number}} ℃",
+                StorageCreationHumidityError: "Humidity in placement: {{actualHumidity, number}} %. " +
+                    "Max humidity is {{maxHumidity, number}} %"
             }
         },
         UA: {
@@ -310,7 +314,11 @@ i18n.use(LanguageDetector).init({
                 ShelfLifeState: "Стан строку",
                 Normal: "норма",
                 Violated: "порушено",
-                FWarehouseAddress: "Адреса складу"
+                FWarehouseAddress: "Адреса складу",
+                StorageCreationTemperatureError: "Температура в приміщенні: {{actualTemperature, number}} ℃. " +
+                    "Інтервал зберігання від {{minTemperature, number}} до {{maxTemperature, number}} ℃",
+                StorageCreationHumidityError: "Вологість у приміщенні: {{actualHumidity, number}} %. " +
+                    "Максимальна {{maxHumidity, number}} %"
             }
         },
     },

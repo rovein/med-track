@@ -19,6 +19,7 @@ function AddMedicineStorageForm() {
 
     const [isLoaded, setIsLoaded] = useState(false)
     const [error, setError] = useState("");
+    const [errorData, setErrorData] = useState({});
     const {register, handleSubmit, formState: {errors}} = useForm()
     const {t} = useTranslation()
 
@@ -60,9 +61,14 @@ function AddMedicineStorageForm() {
         submitButtonRef.current.disabled = false
     }
 
-    //TODO() handle storage creation error (conditions are not correspond)
     const handleError = e => {
-        setError("ErrorResponse")
+        if (e.response.status >= 500) {
+            setError("ErrorResponse")
+        } else {
+            const data = e.response.data
+            setError(data.errorKey)
+            setErrorData(data)
+        }
         setIsLoaded(true)
     }
 
@@ -109,7 +115,7 @@ function AddMedicineStorageForm() {
             <h1 className="w3-center">{t("AddStorage")}</h1>
 
             <div className="sized-font w3-center w3-text-red">
-                {error && <p>{t(error)}</p>}
+                {error && <p>{t(error, errorData)}</p>}
             </div>
 
             <div className="w3-row w3-section">
