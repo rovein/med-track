@@ -34,3 +34,9 @@ export const formatMedicineStorageData = (storage) => {
     storage = formatMedicineData(storage);
     return storage
 }
+
+export const sortById = data => {
+    return data.sort((current, next) => {
+        return current.id - next.id
+    })
+}

@@ -7,6 +7,7 @@ import {getCurrentUserEmail} from "../../util/LocalStorageUtils";
 import DefaultLoader from "../../ui/Loader";
 import _, {parseInt} from "lodash";
 import {useForm} from "react-hook-form";
+import {sortById} from "../../util/DataFormattingUtil";
 
 function AddMedicineStorageForm() {
     const [warehouseOptions, setWarehouseOptions] = useState([])
@@ -28,7 +29,7 @@ function AddMedicineStorageForm() {
     useEffect(() => {
         axios.get(`/medicines-providers/${getCurrentUserEmail()}/warehouses`)
             .then(result => {
-                const data = result.data
+                const data = sortById(result.data)
                 const options = data.map(warehouse => ({
                     value: warehouse.id,
                     label: warehouse.id + " - " + warehouse.city + ", " + warehouse.street + ", " + warehouse.house
@@ -38,7 +39,7 @@ function AddMedicineStorageForm() {
 
         axios.get(`/medicines-providers/${getCurrentUserEmail()}/medicines`)
             .then(result => {
-                const data = result.data
+                const data = sortById(result.data)
                 setMedicineOptions(data.map(medicine => ({
                     value: medicine.id,
                     label: medicine.id + " - " + medicine.name + " (" + medicine.storageForm + ")"
@@ -77,7 +78,7 @@ function AddMedicineStorageForm() {
         disablePlacementsSelect()
         const response = await axios.get(`/medicines-providers/warehouses/${selectedWarehouseId}/placements`)
             .catch(handleError)
-        setPlacementOptions(response.data.map(placement => ({
+        setPlacementOptions(sortById(response.data).map(placement => ({
             value: placement.id,
             label: placement.id + " - " + placement.type
         })))
