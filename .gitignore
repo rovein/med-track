@@ -37,5 +37,3 @@ build/
 
 **/cmake-build-debug/
 **/CMakeLists.txt
-
-med-track-smart-device
