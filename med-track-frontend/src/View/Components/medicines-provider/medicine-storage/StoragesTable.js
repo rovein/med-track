@@ -19,12 +19,6 @@ function StoragesTable({storagesUrl, columns}) {
 
     const operations = [
         {
-            "name": "Edit",
-            "onClick": id => window.location.href = `./edit-storage/${id}`,
-            "className": "w3-btn w3-khaki w3-round-small w3-medium",
-            "onClickPassParameter": "id"
-        },
-        {
             "name": "Delete",
             "className": "w3-btn w3-red w3-round-small w3-medium",
             "onClickPassParameter": "id",
