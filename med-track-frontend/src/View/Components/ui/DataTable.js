@@ -176,7 +176,7 @@ function Table({columns, data, operations, searchPlaceholder, addFormUrl}) {
                                 let style = columnStyle;
                                 const customStyle = cell.column.applyCustomStyle;
                                 if (customStyle) {
-                                    const originalData = page[0]?.original;
+                                    const originalData = page[cell.row.index]?.original;
                                     style = {...columnStyle, ...originalData[customStyle]}
                                 }
                                 return <td style={style}{...cell.getCellProps()}>{cell.render('Cell')}</td>

@@ -22,7 +22,8 @@ export const formatMedicineStorageData = (storage) => {
     const violated = "Violated"
     const violatedStyle = {color: "red"}
 
-    const temperature = storage.temperature
+    const stringTemperature = storage.temperature;
+    const temperature = parseInt(stringTemperature.substring(0, stringTemperature.length - 3))
     const temperatureDoesNotMatch = temperature < storage.minTemperature || temperature > storage.maxTemperature
     storage.isConditionsViolatedTranslate = temperatureDoesNotMatch ? violated : normal
     storage.conditionsStyle = temperatureDoesNotMatch ? violatedStyle : normalStyle
