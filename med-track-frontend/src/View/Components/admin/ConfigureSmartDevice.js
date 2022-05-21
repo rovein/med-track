@@ -47,7 +47,7 @@ class ConfigureSmartDeviceForm extends React.Component{
     const bytes = this.state.serverIp.split('.');
     try{
       let res = await fetch(
-        `http://${this.state.deviceIp}/?byte1=${bytes[0]}&byte2=${bytes[1]}&byte3=${bytes[2]}&byte4=${bytes[3]}&port=${this.state.serverPort}&roomId=${this.state.placementId}`
+        `http://${this.state.deviceIp}/?firstByte=${bytes[0]}&secondByte=${bytes[1]}&thirdByte=${bytes[2]}&fourthByte=${bytes[3]}&port=${this.state.serverPort}&placementId=${this.state.placementId}`
       )
       if (res.status === 200) {
         this.setState({isSuccess: true, isLoaded: true, buttonDisabled: false})
