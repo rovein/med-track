@@ -131,7 +131,8 @@ public class MedicineStorageServiceImpl implements MedicineStorageService {
                         medicine.getName(),
                         medicine.getPrice(),
                         medicine.getStorageForm(),
-                        dateFormat.format(medicine.getShelfLife())
+                        dateFormat.format(medicine.getShelfLife()),
+                        medicine.getId()
                 ))
                 .send()
         ).start();

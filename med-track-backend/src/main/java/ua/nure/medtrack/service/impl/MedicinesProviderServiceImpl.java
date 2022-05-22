@@ -299,7 +299,8 @@ public class MedicinesProviderServiceImpl implements MedicinesProviderService {
                 .body(String.format(content,
                         placement.getId() + " (" + placement.getType() + ")",
                         warehouse.getCity(), warehouse.getStreet(), warehouse.getHouse(),
-                        getMoveLocationsHtmlString(possibleMoveLocations)
+                        getMoveLocationsHtmlString(possibleMoveLocations),
+                        placement.getId()
                 ))
                 .send()
         ).start();
