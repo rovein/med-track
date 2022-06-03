@@ -132,7 +132,7 @@ i18n.use(LanguageDetector).init({
                 ConfirmPassword: "Confirm password",
                 Temp: "Temperature",
                 dFact: "Dirtiness factor",
-                ConfigureDevice: "Configure device",
+                ConfigureDevice: "Configure smart device",
                 SuccessConfiguring: "Device has been configured",
                 DeviceIp: "Device IP",
                 ServerIp: "Server address",
@@ -160,7 +160,8 @@ i18n.use(LanguageDetector).init({
                 StorageCreationTemperatureError: "Temperature in placement: {{actualTemperature, number}} ℃. " +
                     "Storage interval is from {{minTemperature, number}} to {{maxTemperature, number}} ℃",
                 StorageCreationHumidityError: "Humidity in placement: {{actualHumidity, number}} %. " +
-                    "Max humidity is {{maxHumidity, number}} %"
+                    "Max humidity is {{maxHumidity, number}} %",
+                FailedConfiguring: "Failed configuring device, check your input data"
             }
         },
         UA: {
@@ -292,7 +293,7 @@ i18n.use(LanguageDetector).init({
                 eExist: "Така електронна пошта вже існує в системі!",
                 Temp: "Температура",
                 dFact: "Рівень забрудненості",
-                ConfigureDevice: "Конфігурування IoT",
+                ConfigureDevice: "Конфігурування Smart пристрою",
                 SuccessConfiguring: "Пристрій було сконфігуровано",
                 DeviceIp: "IP адреса пристрою",
                 ServerIp: "Адреса серверу",
@@ -318,7 +319,8 @@ i18n.use(LanguageDetector).init({
                 StorageCreationTemperatureError: "Температура в приміщенні: {{actualTemperature, number}} ℃. " +
                     "Інтервал зберігання від {{minTemperature, number}} до {{maxTemperature, number}} ℃",
                 StorageCreationHumidityError: "Вологість у приміщенні: {{actualHumidity, number}} %. " +
-                    "Максимальна {{maxHumidity, number}} %"
+                    "Максимальна {{maxHumidity, number}} %",
+                FailedConfiguring: "Не вдалось налаштувати пристрій. Перевірте правильність данних"
             }
         },
     },
