@@ -11,8 +11,9 @@ IPAddress server;
 unsigned int id;
 unsigned int port;
 
-IPAddress arduinoIp(192, 168, 0, 2);
+IPAddress arduinoIp(192, 168, 1, 177);
 IPAddress myDns(192, 168, 0, 1);
+EthernetClient client;
 EthernetServer arduinoServer(80);
 boolean isDeviceConfigured = false;
 
@@ -21,8 +22,6 @@ byte secondByte;
 byte thirdByte;
 byte fourthByte;
 String readString = String(30);
-
-EthernetClient client;
 
 DHT dht(DHT_PIN, DHT11);
 
@@ -68,7 +67,11 @@ void setup() {
     Serial.println("Перехід до стану клієнта...");
     Serial.print("Під'єднання до ");
     Serial.print(server);
+    Serial.print(":");
+    Serial.print(port);
     Serial.println("...");
+
+    delay(1000);
 
     if (client.connect(server, port)) {
         Serial.print("Під'єднано до ");
