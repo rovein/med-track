@@ -168,7 +168,7 @@ function Table({columns, data, operations, searchPlaceholder, addFormUrl}) {
                 ))}
                 </thead>
                 <tbody {...getTableBodyProps()}>
-                {page.map((row) => {
+                {page.map((row, idx) => {
                     prepareRow(row)
                     return (
                         <tr {...row.getRowProps()} className="w3-hover-sand">
@@ -176,7 +176,7 @@ function Table({columns, data, operations, searchPlaceholder, addFormUrl}) {
                                 let style = columnStyle;
                                 const customStyle = cell.column.applyCustomStyle;
                                 if (customStyle) {
-                                    const originalData = page[cell.row.index]?.original;
+                                    const originalData = page[idx]?.original;
                                     style = {...columnStyle, ...originalData[customStyle]}
                                 }
                                 return <td style={style}{...cell.getCellProps()}>{cell.render('Cell')}</td>
