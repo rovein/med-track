@@ -3,7 +3,7 @@ import {useTranslation, withTranslation} from 'react-i18next'
 import 'react-dropdown/style.css';
 import "react-datepicker/dist/react-datepicker.css";
 import axios from "../../util/ApiUtil";
-import {getCurrentUserEmail} from "../../util/LocalStorageUtils";
+import {getCurrentUserEmail, getCurrentWarehouse} from "../../util/LocalStorageUtils";
 import DefaultLoader from "../../ui/Loader";
 import _, {parseInt} from "lodash";
 import {useForm} from "react-hook-form";
@@ -91,7 +91,10 @@ function AddMedicineStorageForm() {
         axios.post('/medicine-storages', data)
             .then(result => {
                 const createdStorage = result.data
-                if (createdStorage) window.location.href = `./storages/by-placement/${createdStorage.placementId}`;
+                let url;
+                if (getCurrentWarehouse()) url = `./storages/by-placement/${createdStorage.placementId}`;
+                else url = './profile';
+                if (createdStorage) window.location.href = url;
             })
             .catch(handleError)
     }
