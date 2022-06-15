@@ -10,6 +10,7 @@ import {
     setCurrentPlacementId,
     setEditPlacementId
 } from "../../util/LocalStorageUtils";
+import {formatPlacementData} from "../../util/DataFormattingUtil";
 
 function PlacementsTable() {
     const [data, setData] = useState([])
@@ -19,14 +20,7 @@ function PlacementsTable() {
         axios.get(`/medicines-providers/warehouses/${getCurrentWarehouseId()}/placements`)
             .then(result => {
                 const data = result.data;
-                const updatedData = data.map(placement => {
-                    const device = placement.smartDevice;
-                    return {
-                        ...placement,
-                        temperature: device.temperature + " °C",
-                        humidity: device.humidity + " %"
-                    }
-                });
+                const updatedData = data.map(formatPlacementData);
                 setData(updatedData)
                 setIsLoaded(true)
             })

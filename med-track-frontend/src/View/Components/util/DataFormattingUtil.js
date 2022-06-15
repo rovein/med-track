@@ -36,6 +36,15 @@ export const formatMedicineStorageData = (storage) => {
     return storage
 }
 
+export const formatPlacementData = placement => {
+    const device = placement.smartDevice;
+    return {
+        ...placement,
+        temperature: device.temperature + " °C",
+        humidity: device.humidity + " %"
+    }
+}
+
 export const sortById = data => {
     return data.sort((current, next) => {
         return current.id - next.id

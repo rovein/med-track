@@ -11,6 +11,8 @@ import StoragesByPlacementInfoBlock from "./by-placement/StoragesByPlacementInfo
 import StoragesByMedicineInfoBlock from "./by-medicine/StoragesByMedicinetInfoBlock";
 import StoragesByPlacementTable from "./by-placement/StoragesByPlacementTable";
 import StoragesByMedicineTable from "./by-medicine/StoragesByMedicineTable";
+import axios from "../../util/ApiUtil";
+import {formatPlacementData} from "../../util/DataFormattingUtil";
 
 function MedicineStorageInfo() {
     const { getBy, id } = useParams();
@@ -30,7 +32,10 @@ function MedicineStorageInfo() {
     useEffect(() => {
         if (isStoragesByPlacement()) {
             setWarehouse(getCurrentWarehouse())
-            setPlacement(getCurrentPlacement())
+            const currentPlacement = getCurrentPlacement();
+            axios.get(`/medicines-providers/warehouses/placements/${currentPlacement.id}`)
+                .then(result => setPlacement(formatPlacementData(result.data)))
+            setPlacement(currentPlacement)
         } else if (isStoragesByMedicines()) {
             setProvider(getCurrentMedicinesProvider())
             setMedicine(getCurrentMedicine())
