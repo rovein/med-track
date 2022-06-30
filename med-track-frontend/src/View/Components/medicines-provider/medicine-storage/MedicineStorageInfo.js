@@ -33,8 +33,6 @@ function MedicineStorageInfo() {
         if (isStoragesByPlacement()) {
             setWarehouse(getCurrentWarehouse())
             const currentPlacement = getCurrentPlacement();
-            axios.get(`/medicines-providers/warehouses/placements/${currentPlacement.id}`)
-                .then(result => setPlacement(formatPlacementData(result.data)))
             setPlacement(currentPlacement)
         } else if (isStoragesByMedicines()) {
             setProvider(getCurrentMedicinesProvider())
@@ -44,8 +42,8 @@ function MedicineStorageInfo() {
 
     return (
         <div>
-            {isStoragesByPlacement() && <StoragesByPlacementInfoBlock placement={placement} warehouse={warehouse}/>}
-            {isStoragesByMedicines() && <StoragesByMedicineInfoBlock provider={provider} medicine={medicine}/>}
+            {isStoragesByPlacement() && <StoragesByPlacementInfoBlock id={id} placement={placement} warehouse={warehouse}/>}
+            {isStoragesByMedicines() && <StoragesByMedicineInfoBlock id={id} provider={provider} medicineCached={medicine}/>}
             <div>
                 {isStoragesByPlacement() && <StoragesByPlacementTable id={id}/>}
                 {isStoragesByMedicines() && <StoragesByMedicineTable id={id}/>}
