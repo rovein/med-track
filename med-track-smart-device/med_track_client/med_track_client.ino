@@ -113,7 +113,7 @@ void loop() {
         printResponse(client);
     }
 
-    delay(10000);
+    delay(30000);
 }
 
 void initConfigParams(TextFinder finder) {
