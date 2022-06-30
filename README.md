@@ -16,7 +16,7 @@ Communication established via HTTP protocol, that is, the web client interacts w
 
 # Implemented features
 
-Briefly about the implemented functions: registration, authorization, profile management, all CRUD operations, sending letters to mail, administration functions: managing user accounts, blocking accounts, obtaining a backup copy of the database, configuring Smart Device / IoT.
+Briefly about the implemented functions: registration, authorization, profile management, all CRUD operations, sending letters to mail, administration functions: managing user accounts, blocking accounts, obtaining a backup copy of the database, configuring Smart Device / IoT.<br>
 Business logic: system has two user roles: medicines provider and administrator. Medicines provider stores his medicined in placements in some warehouses. Each placement has one connected smart device to it, which is configured by the admin. Each medicine has the storage conditions: min, max temperature and max humidity. The conditions in the placement must be at that range to be satisfactory. Smart Device reads indicators of the temperature and humidity and sends it to the Backend. Backend updates indicators and runs a check for all the medicines in current placement. If indicators are no longer satisfactory, then server finds all appropriate placements to move a medicine in and constructs an email-notification with a table definition of this data. Then a notification is sent to the user.
 
 ## How to run
